@@ -25,13 +25,13 @@
 body { font-family: system-ui, -apple-system, "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Meiryo", sans-serif; background:var(--bg); color:var(--text); display:flex; flex-direction:column; height:100vh; overflow:hidden; font-size:13px; }
 
 /* ── SIDEBAR ── */
-.sb { width:196px; flex-shrink:0; background:var(--bg2); border-right:1px solid var(--border); display:flex; flex-direction:column; overflow-y:auto; }
+.sb { width:220px; flex-shrink:0; background:var(--bg2); border-right:1px solid var(--border); display:flex; flex-direction:column; overflow-y:auto; }
 .sb-head { padding:12px 14px; border-bottom:1px solid var(--border); font-size:13px; font-weight:500; }
 .sb-section { padding:14px 8px 4px; }
 .sb-label { font-size:10px; font-weight:600; color:var(--text3); letter-spacing:.08em; text-transform:uppercase; padding:0 6px; margin-bottom:4px; }
 .sb-item { display:flex; align-items:center; gap:8px; padding:6px 8px; border-radius:6px; cursor:pointer; color:var(--text2); font-size:12.5px; border:1px solid transparent; transition:all .12s; }
 .sb-item:hover { background:var(--bg3); color:var(--text); }
-.sb-item.on { background:var(--bg4); color:var(--text); border-color:var(--border); }
+.sb-item.on { background:var(--bg4); color:var(--text); border-color:var(--border); border-left:2px solid var(--amber); padding-left:6px; }
 .sb-item svg { opacity:.5; flex-shrink:0; }
 .sb-item.on svg { opacity:.9; }
 .sb-foot { margin-top:auto; padding:10px 8px; border-top:1px solid var(--border); }
@@ -49,7 +49,11 @@ body { font-family: system-ui, -apple-system, "Hiragino Kaku Gothic ProN", "Yu G
 .ov-sub { font-size:12px; color:var(--text3); }
 .sec-label { font-size:10px; font-weight:600; color:var(--text3); letter-spacing:.1em; text-transform:uppercase; padding:0 36px; margin-bottom:10px; }
 .tool-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--border); border-top:1px solid var(--border); margin-bottom:28px; }
-.tool-card { background:var(--bg); padding:14px 18px; cursor:pointer; transition:background .12s; }
+.tool-card { position:relative; background:var(--bg); padding:14px 18px; cursor:pointer; transition:background .12s; }
+.tool-card::before, .tool-card::after { content:''; position:absolute; width:10px; height:10px; opacity:0; transition:opacity .15s; }
+.tool-card::before { top:6px; left:6px; border-top:1px solid var(--amber); border-left:1px solid var(--amber); }
+.tool-card::after { bottom:6px; right:6px; border-bottom:1px solid var(--amber); border-right:1px solid var(--amber); }
+.tool-card:hover::before, .tool-card:hover::after { opacity:1; }
 .tool-card:hover { background:var(--bg2); }
 .tool-card-name { font-size:12.5px; font-weight:500; margin-bottom:3px; display:flex; align-items:center; gap:6px; }
 .tool-card-desc { font-size:11px; color:var(--text3); line-height:1.5; }
@@ -375,15 +379,15 @@ body { font-family: system-ui, -apple-system, "Hiragino Kaku Gothic ProN", "Yu G
 ::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
 
 /* ── HUD BAR ── */
-.hud { height:30px; flex-shrink:0; background:#0a0a0a; border-bottom:1px solid rgba(0,255,160,.08); display:flex; align-items:center; padding:0 16px; gap:0; font-size:10px; font-family:monospace; color:var(--text3); letter-spacing:.04em; z-index:900; }
-.hud-brand { font-size:11px; font-weight:700; letter-spacing:.18em; color:rgba(0,255,160,.75); text-transform:uppercase; margin-right:20px; }
+.hud { height:30px; flex-shrink:0; background:#0a0a0a; border-bottom:1px solid rgba(245,166,35,0.08); display:flex; align-items:center; padding:0 16px; gap:0; font-size:10px; font-family:monospace; color:var(--text3); letter-spacing:.04em; z-index:900; }
+.hud-brand { font-size:11px; font-weight:700; letter-spacing:.18em; color:rgba(245,166,35,0.75); text-transform:uppercase; margin-right:20px; }
 .hud-sep { width:1px; height:12px; background:rgba(255,255,255,.06); margin:0 12px; }
 .hud-item { display:flex; align-items:center; gap:5px; color:var(--text3); }
 .hud-dot { width:5px; height:5px; border-radius:50%; background:var(--green); box-shadow:0 0 5px var(--green); flex-shrink:0; }
 .hud-dot.amber { background:var(--amber); box-shadow:0 0 5px var(--amber); }
 .hud-label { color:rgba(255,255,255,.3); }
 .hud-val { color:rgba(255,255,255,.55); }
-.hud-clock { margin-left:auto; font-size:10.5px; font-weight:500; color:rgba(0,255,160,.6); letter-spacing:.1em; }
+.hud-clock { margin-left:auto; font-size:10.5px; font-weight:500; color:rgba(245,166,35,0.6); letter-spacing:.1em; }
 .hud-wrap { display:flex; flex:1; overflow:hidden; }
 </style>
 </head>
