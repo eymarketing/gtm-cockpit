@@ -6,15 +6,15 @@
 <title>GTM COCKPIT</title>
 <style>
 :root {
-  --bg: #0f0f0f;
-  --bg2: #161616;
-  --bg3: #1e1e1e;
-  --bg4: #272727;
-  --border: rgba(255,255,255,0.07);
-  --border2: rgba(255,255,255,0.13);
-  --text: #e8e8e2;
-  --text2: #9a9a94;
-  --text3: #555550;
+  --bg: #0d1117;
+  --bg2: #161b22;
+  --bg3: #1c2128;
+  --bg4: #22272e;
+  --border: rgba(255,255,255,0.10);
+  --border2: rgba(255,255,255,0.18);
+  --text: #f0f6fc;
+  --text2: #8b949e;
+  --text3: #484f58;
   --green: #3ddc84;
   --blue: #4a9eff;
   --amber: #f5a623;
@@ -29,7 +29,7 @@ body { font-family: system-ui, -apple-system, "Hiragino Kaku Gothic ProN", "Yu G
 .sb-head { padding:12px 14px; border-bottom:1px solid var(--border); font-size:13px; font-weight:500; }
 .sb-section { padding:14px 8px 4px; }
 .sb-label { font-size:10px; font-weight:600; color:var(--text3); letter-spacing:.08em; text-transform:uppercase; padding:0 6px; margin-bottom:4px; }
-.sb-item { display:flex; align-items:center; gap:8px; padding:6px 8px; border-radius:6px; cursor:pointer; color:var(--text2); font-size:12.5px; border:1px solid transparent; transition:all .12s; }
+.sb-item { display:flex; align-items:center; gap:8px; padding:6px 8px; border-radius:6px; cursor:pointer; color:#cdd9e5; font-size:12.5px; border:1px solid transparent; transition:all .12s; }
 .sb-item:hover { background:var(--bg3); color:var(--text); }
 .sb-item.on { background:var(--bg4); color:var(--text); border-color:var(--border); border-left:2px solid var(--amber); padding-left:6px; }
 .sb-item svg { opacity:.5; flex-shrink:0; }
@@ -47,9 +47,9 @@ body { font-family: system-ui, -apple-system, "Hiragino Kaku Gothic ProN", "Yu G
 .ov-head { padding:28px 36px 20px; }
 .ov-title { font-size:24px; font-weight:500; letter-spacing:-.02em; margin-bottom:4px; }
 .ov-sub { font-size:12px; color:var(--text3); }
-.sec-label { font-size:10px; font-weight:600; color:var(--text3); letter-spacing:.1em; text-transform:uppercase; padding:0 36px; margin-bottom:10px; }
+.sec-label { font-size:11px; font-weight:600; color:var(--amber); letter-spacing:0.08em; text-transform:uppercase; padding:0 36px; margin-bottom:10px; }
 .tool-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--border); border-top:1px solid var(--border); margin-bottom:28px; }
-.tool-card { position:relative; background:var(--bg); padding:14px 18px; cursor:pointer; transition:background .12s; }
+.tool-card { position:relative; background:var(--bg); padding:14px 18px; cursor:pointer; transition:background .12s; border:1px solid rgba(255,255,255,0.12); box-shadow:0 1px 3px rgba(0,0,0,0.4); }
 .tool-card::before, .tool-card::after { content:''; position:absolute; width:10px; height:10px; opacity:0; transition:opacity .15s; }
 .tool-card::before { top:6px; left:6px; border-top:1px solid var(--amber); border-left:1px solid var(--amber); }
 .tool-card::after { bottom:6px; right:6px; border-bottom:1px solid var(--amber); border-right:1px solid var(--amber); }
@@ -404,7 +404,7 @@ body { font-family: system-ui, -apple-system, "Hiragino Kaku Gothic ProN", "Yu G
   <div class="hud-item"><span class="hud-label">PLATFORM</span>&nbsp;<span class="hud-val">STech I GTM</span></div>
   <div class="hud-sep"></div>
   <div class="hud-item"><div class="hud-dot amber"></div><span class="hud-label">ABM</span>&nbsp;<span class="hud-val">26 ACCOUNTS</span></div>
-  <div class="hud-clock" id="hud-clock">--:--:--</div>
+  <div class="hud-clock" id="hud-clock"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:4px;opacity:0.7"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span id="hud-clock-text">--:--:--</span></div>
 </div>
 
 <div class="hud-wrap">
@@ -415,7 +415,7 @@ body { font-family: system-ui, -apple-system, "Hiragino Kaku Gothic ProN", "Yu G
 
   <div style="padding:6px 8px">
     <div class="sb-item on" id="sb-overview" onclick="show('overview')">
-      <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/><rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/></svg>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
       概要
     </div>
   </div>
@@ -423,44 +423,44 @@ body { font-family: system-ui, -apple-system, "Hiragino Kaku Gothic ProN", "Yu G
   <div class="sb-section">
     <div class="sb-label">戦略 &amp; インテリジェンス</div>
     <div class="sb-item" id="sb-abm" onclick="show('abm')">
-      <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="5"/><path d="M8 5v3l2 2"/></svg>ABM
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>ABM
     </div>
-    <div class="sb-item"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12l4-4 3 3 5-6"/></svg>Signal Reports</div>
+    <div class="sb-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.9 16.1A9.93 9.93 0 0 1 2 12c0-5.52 4.48-10 10-10s10 4.48 10 10c0 1.64-.4 3.19-1.1 4.55"/><path d="M7.8 13.5A5.97 5.97 0 0 1 6 12c0-3.31 2.69-6 6-6s6 2.69 6 6c0 .6-.09 1.18-.25 1.73"/><line x1="12" y1="12" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/></svg>Signal Reports</div>
   </div>
 
   <div class="sb-section">
     <div class="sb-label">コンテンツ制作</div>
     <div class="sb-item" id="sb-nl" onclick="show('nl-list')">
-      <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="12" height="9" rx="1.5"/><path d="M2 7h12"/></svg>Newsletter
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>Newsletter
     </div>
-    <div class="sb-item"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="1"/><path d="M8 3v2M8 11v2M3 8h2M11 8h2"/></svg>SEO Blog Writer</div>
-    <div class="sb-item"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 4h10M3 8h8M3 12h6"/></svg>Deep Content</div>
-    <div class="sb-item"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3h12v10H2z"/><path d="M5 7h6M5 9h4"/></svg>PR Writer</div>
-    <div class="sb-item"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2l1.5 3 3.5.5-2.5 2.5.5 3.5L8 10l-3 1.5.5-3.5L3 5.5 6.5 5z"/></svg>Social Writer</div>
-    <div class="sb-item"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 8h2l2-4 2 8 2-4h2"/></svg>Punchy Writer</div>
-    <div class="sb-item"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 14c3 0 6-3 6-6S11 2 8 2 2 5 2 8s3 6 6 6z"/></svg>Love Letter</div>
+    <div class="sb-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>SEO Blog Writer</div>
+    <div class="sb-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h12"/></svg>Deep Content</div>
+    <div class="sb-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8M15 18h-5M10 6h8v4h-8z"/></svg>PR Writer</div>
+    <div class="sb-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>Social Writer</div>
+    <div class="sb-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Punchy Writer</div>
+    <div class="sb-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>Love Letter</div>
   </div>
 
   <div class="sb-section">
     <div class="sb-label">マルチメディア &amp; イベント</div>
-    <div class="sb-item"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="5"/><path d="M6.5 6l4 2-4 2V6z"/></svg>Podcast Studio</div>
-    <div class="sb-item"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="6" r="3"/><path d="M2 14c0-3 2.7-5 6-5s6 2 6 5"/></svg>Guest Research</div>
-    <div class="sb-item"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="12" height="10" rx="1.5"/><path d="M6.5 6.5l4 2-4 2v-4z"/></svg>Webinar Agent</div>
-    <div class="sb-item"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="2" width="10" height="12" rx="1"/><path d="M5 6h6M5 9h4"/></svg>Event Content</div>
+    <div class="sb-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>Podcast Studio</div>
+    <div class="sb-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/></svg>Guest Research</div>
+    <div class="sb-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="17" height="14" rx="2"/><path d="m19 8 3 2v6l-3 2V8z"/></svg>Webinar Agent</div>
+    <div class="sb-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01"/></svg>Event Content</div>
   </div>
 
   <div class="sb-section">
     <div class="sb-label">最適化 &amp; SEO</div>
-    <div class="sb-item"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6.5" cy="6.5" r="4"/><path d="M10 10l3 3"/></svg>Narrative Scanner</div>
-    <div class="sb-item"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 4h10M3 8h8M3 12h6"/></svg>Slop Cleaner</div>
-    <div class="sb-item"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8h10M8 3l5 5-5 5"/></svg>Blog Fixer</div>
-    <div class="sb-item"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8c0-2.8 2.2-5 5-5s5 2.2 5 5-2.2 5-5 5"/></svg>Ad Fixer</div>
+    <div class="sb-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2M3 17v2a2 2 0 0 0 2 2h2M17 3h2a2 2 0 0 1 2 2v2M17 21h2a2 2 0 0 0 2-2v-2"/><path d="M7 12h3M14 12h3M7 8h10M7 16h6"/></svg>Narrative Scanner</div>
+    <div class="sb-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h12M4 18h8"/></svg>Slop Cleaner</div>
+    <div class="sb-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="M9 15l2 2 4-4"/></svg>Blog Fixer</div>
+    <div class="sb-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Ad Fixer</div>
   </div>
 
   <div class="sb-section">
     <div class="sb-label">チーム &amp; コーポレート</div>
-    <div class="sb-item"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 14c0-2.2 2-4 6-4s6 1.8 6 4"/><circle cx="8" cy="6" r="3"/></svg>Employee Advocacy</div>
-    <div class="sb-item"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="12" height="12" rx="1.5"/><path d="M6 8h4M8 6v4"/></svg>JD Generator</div>
+    <div class="sb-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>Employee Advocacy</div>
+    <div class="sb-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 8v8M8 12h8"/></svg>JD Generator</div>
   </div>
 
   <div class="sb-foot">
@@ -470,7 +470,7 @@ body { font-family: system-ui, -apple-system, "Hiragino Kaku Gothic ProN", "Yu G
       <svg width="9" height="9" viewBox="0 0 10 10" fill="none" style="margin-left:auto;opacity:0.3"><path d="M2 8L8 2M8 2H4M8 2v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </a>
     <div class="sb-user">
-      <div class="sb-avatar">EY</div>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.5;flex-shrink:0"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="8" r="3"/><path d="M6.168 18.849A4 4 0 0 1 10 16h4a4 4 0 0 1 3.834 2.855"/></svg>
       <span style="font-size:11.5px">eiyamakoshi@sojitz-ti.com</span>
     </div>
   </div>
@@ -541,37 +541,37 @@ body { font-family: system-ui, -apple-system, "Hiragino Kaku Gothic ProN", "Yu G
   </div>
   <div class="sec-label">インテリジェンス エージェント</div>
   <div class="tool-grid">
-    <div class="tool-card"><div class="tool-card-name"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="5"/><path d="M8 5v3l2 2"/></svg>ABM Agent</div><div class="tool-card-desc">Account briefs, POV one-pagers &amp; exec outreach</div></div>
-    <div class="tool-card" onclick="show('nl-list')"><div class="tool-card-name"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="12" height="9" rx="1.5"/><path d="M2 7h12"/></svg>Newsletter Agent</div><div class="tool-card-desc">CXO newsletters with AI research &amp; editorial</div></div>
-    <div class="tool-card"><div class="tool-card-name"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12l4-4 3 3 5-6"/></svg>Signal Reports</div><div class="tool-card-desc">Buying signals from CRM, web &amp; social</div></div>
-    <div class="tool-card"><div class="tool-card-name"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6.5" cy="6.5" r="4"/><path d="M10 10l3 3"/></svg>Guest Research</div><div class="tool-card-desc">Podcast guest scoring &amp; discussion prep</div></div>
-    <div class="tool-card"><div class="tool-card-name">News Scraper</div><div class="tool-card-desc">Banking news &amp; competitor moves (7-day)</div></div>
-    <div class="tool-card"><div class="tool-card-name">Narrative Scanner</div><div class="tool-card-desc">Find outdated mentions &amp; narrative drift</div></div>
+    <div class="tool-card"><div class="tool-card-name"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>ABM Agent</div><div class="tool-card-desc">Account briefs, POV one-pagers &amp; exec outreach</div></div>
+    <div class="tool-card" onclick="show('nl-list')"><div class="tool-card-name"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>Newsletter Agent</div><div class="tool-card-desc">CXO newsletters with AI research &amp; editorial</div></div>
+    <div class="tool-card"><div class="tool-card-name"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.9 16.1A9.93 9.93 0 0 1 2 12c0-5.52 4.48-10 10-10s10 4.48 10 10c0 1.64-.4 3.19-1.1 4.55"/><path d="M7.8 13.5A5.97 5.97 0 0 1 6 12c0-3.31 2.69-6 6-6s6 2.69 6 6c0 .6-.09 1.18-.25 1.73"/><line x1="12" y1="12" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/></svg>Signal Reports</div><div class="tool-card-desc">Buying signals from CRM, web &amp; social</div></div>
+    <div class="tool-card"><div class="tool-card-name"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/></svg>Guest Research</div><div class="tool-card-desc">Podcast guest scoring &amp; discussion prep</div></div>
+    <div class="tool-card"><div class="tool-card-name"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3h16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M4 7h16M8 3v4M12 11h4M12 15h4M8 11h.01M8 15h.01"/></svg>News Scraper</div><div class="tool-card-desc">Banking news &amp; competitor moves (7-day)</div></div>
+    <div class="tool-card"><div class="tool-card-name"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2M3 17v2a2 2 0 0 0 2 2h2M17 3h2a2 2 0 0 1 2 2v2M17 21h2a2 2 0 0 0 2-2v-2"/><path d="M7 12h3M14 12h3M7 8h10M7 16h6"/></svg>Narrative Scanner</div><div class="tool-card-desc">Find outdated mentions &amp; narrative drift</div></div>
   </div>
   <div class="sec-label">コンテンツ制作</div>
   <div class="tool-grid">
-    <div class="tool-card"><div class="tool-card-name">SEO Blog Writer</div><div class="tool-card-desc">SEO blogs with internal links &amp; Webflow publish</div></div>
-    <div class="tool-card"><div class="tool-card-name">Deep Content</div><div class="tool-card-desc">4,000-word whitepapers &amp; industry reports</div></div>
-    <div class="tool-card"><div class="tool-card-name">Social Writer</div><div class="tool-card-desc">5 LinkedIn post styles per topic</div></div>
-    <div class="tool-card"><div class="tool-card-name">Employee Advocacy</div><div class="tool-card-desc">LinkedIn posts for employee sharing</div></div>
-    <div class="tool-card"><div class="tool-card-name">PR Writer</div><div class="tool-card-desc">Press releases from brief or PDF</div></div>
-    <div class="tool-card"><div class="tool-card-name">Podcast Studio</div><div class="tool-card-desc">Transcripts to blogs &amp; LinkedIn content</div></div>
-    <div class="tool-card"><div class="tool-card-name">Love Letter Writer</div><div class="tool-card-desc">Personalised ABM LinkedIn outreach</div></div>
-    <div class="tool-card"><div class="tool-card-name">JD Generator</div><div class="tool-card-desc">Job descriptions with social promotion</div></div>
+    <div class="tool-card"><div class="tool-card-name"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>SEO Blog Writer</div><div class="tool-card-desc">SEO blogs with internal links &amp; Webflow publish</div></div>
+    <div class="tool-card"><div class="tool-card-name"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h12"/></svg>Deep Content</div><div class="tool-card-desc">4,000-word whitepapers &amp; industry reports</div></div>
+    <div class="tool-card"><div class="tool-card-name"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>Social Writer</div><div class="tool-card-desc">5 LinkedIn post styles per topic</div></div>
+    <div class="tool-card"><div class="tool-card-name"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>Employee Advocacy</div><div class="tool-card-desc">LinkedIn posts for employee sharing</div></div>
+    <div class="tool-card"><div class="tool-card-name"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8M15 18h-5M10 6h8v4h-8z"/></svg>PR Writer</div><div class="tool-card-desc">Press releases from brief or PDF</div></div>
+    <div class="tool-card"><div class="tool-card-name"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>Podcast Studio</div><div class="tool-card-desc">Transcripts to blogs &amp; LinkedIn content</div></div>
+    <div class="tool-card"><div class="tool-card-name"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>Love Letter Writer</div><div class="tool-card-desc">Personalised ABM LinkedIn outreach</div></div>
+    <div class="tool-card"><div class="tool-card-name"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 8v8M8 12h8"/></svg>JD Generator</div><div class="tool-card-desc">Job descriptions with social promotion</div></div>
   </div>
   <div class="sec-label">イベント &amp; キャンペーン</div>
   <div class="tool-grid" style="grid-template-columns:repeat(3,1fr)">
-    <div class="tool-card"><div class="tool-card-name">Event Content</div><div class="tool-card-desc">Landing pages, social &amp; email sequences</div></div>
-    <div class="tool-card"><div class="tool-card-name">Webinar Agent</div><div class="tool-card-desc">Full webinar packages end-to-end</div></div>
-    <div class="tool-card"><div class="tool-card-name">PM Assets</div><div class="tool-card-desc">Launch collateral &amp; messaging frameworks</div></div>
+    <div class="tool-card"><div class="tool-card-name"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01"/></svg>Event Content</div><div class="tool-card-desc">Landing pages, social &amp; email sequences</div></div>
+    <div class="tool-card"><div class="tool-card-name"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="17" height="14" rx="2"/><path d="m19 8 3 2v6l-3 2V8z"/></svg>Webinar Agent</div><div class="tool-card-desc">Full webinar packages end-to-end</div></div>
+    <div class="tool-card"><div class="tool-card-name"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>PM Assets</div><div class="tool-card-desc">Launch collateral &amp; messaging frameworks</div></div>
   </div>
   <div class="sec-label">コピー ツール</div>
   <div class="tool-grid">
-    <div class="tool-card"><div class="tool-card-name">Ad Fixer</div><div class="tool-card-desc">Fix ad copy against TOV V2 &amp; JTBD</div></div>
-    <div class="tool-card"><div class="tool-card-name">Punchy Writer</div><div class="tool-card-desc">Make corporate copy punchier</div></div>
-    <div class="tool-card"><div class="tool-card-name">Slop Cleaner</div><div class="tool-card-desc">Detect &amp; clean 21 AI slop patterns</div></div>
-    <div class="tool-card"><div class="tool-card-name">Blog Fixer</div><div class="tool-card-desc">Improve SEO, check links &amp; push to Webflow</div></div>
-    <div class="tool-card"><div class="tool-card-name">Broken Link Fixer</div><div class="tool-card-desc">Scan blogs for 404s &amp; broken URLs</div></div>
+    <div class="tool-card"><div class="tool-card-name"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Ad Fixer</div><div class="tool-card-desc">Fix ad copy against TOV V2 &amp; JTBD</div></div>
+    <div class="tool-card"><div class="tool-card-name"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Punchy Writer</div><div class="tool-card-desc">Make corporate copy punchier</div></div>
+    <div class="tool-card"><div class="tool-card-name"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h12M4 18h8"/></svg>Slop Cleaner</div><div class="tool-card-desc">Detect &amp; clean 21 AI slop patterns</div></div>
+    <div class="tool-card"><div class="tool-card-name"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="M9 15l2 2 4-4"/></svg>Blog Fixer</div><div class="tool-card-desc">Improve SEO, check links &amp; push to Webflow</div></div>
+    <div class="tool-card"><div class="tool-card-name"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/><line x1="2" y1="2" x2="22" y2="22"/></svg>Broken Link Fixer</div><div class="tool-card-desc">Scan blogs for 404s &amp; broken URLs</div></div>
   </div>
 </div>
 
@@ -2322,7 +2322,7 @@ function esc(s) {
 // ── HUD CLOCK ────────────────────────────────────────────────────
 (function() {
   function updateClock() {
-    var el = document.getElementById('hud-clock');
+    var el = document.getElementById('hud-clock-text');
     if (!el) return;
     var now = new Date();
     var h = String(now.getHours()).padStart(2,'0');
