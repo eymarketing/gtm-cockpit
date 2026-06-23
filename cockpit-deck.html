@@ -567,7 +567,7 @@ body {
 <div class="hud">
   <div class="hud-brand">GTM Cockpit</div>
   <div class="hud-sep"></div>
-  <div class="hud-item"><div class="hud-dot"></div><span class="hud-label">Introduction</span>&nbsp;<span class="hud-val">2026.06</span></div>
+  <div class="hud-item"><div class="hud-dot"></div><span class="hud-label">Introduction</span>&nbsp;<span class="hud-val">for ABX</span>&nbsp;<span class="hud-label">|</span>&nbsp;<span class="hud-val">2026.06</span></div>
   <div class="hud-sep"></div>
   <div class="hud-item"><span class="hud-label">AI</span>&nbsp;<span class="hud-val">claude-sonnet-4</span></div>
   <div class="hud-sep"></div>
@@ -666,14 +666,42 @@ body {
       </div>
     </div>
 
-    <!-- Account-Based GTM definition -->
-    <div style="margin-top:18px;background:linear-gradient(135deg,rgba(61,220,132,0.07),rgba(61,220,132,0.03));border:1px solid rgba(61,220,132,0.3);border-left:3px solid var(--green);border-radius:10px;padding:16px 20px;">
-      <div style="font-size:10px;font-family:monospace;letter-spacing:.12em;color:var(--green);margin-bottom:8px;text-transform:uppercase">本構想で扱うGTM</div>
-      <div style="font-size:14px;line-height:1.75;color:var(--text);">
-        本構想で扱うGTMは、単なるマーケティング施策ではない。<br>
-        <strong style="color:var(--green)">ターゲットアカウントを起点に、購買グループ・経営課題・提案ナラティブ・営業アクションを一体で設計する、Account-Based GTMである。</strong><br>
-        <span style="color:var(--text2);font-size:13px;">ABX（Account-Based Experience）はその実行モデルであり、GTM COCKPITはその実行を少人数でスケールするためのAI-Native基盤である。</span>
+    <!-- 3-layer unified definition box -->
+    <div style="margin-top:18px;border:1px solid rgba(61,220,132,0.25);border-radius:12px;overflow:hidden;">
+
+      <!-- Layer 1: Account-Based GTM -->
+      <div style="padding:14px 20px;background:linear-gradient(135deg,rgba(61,220,132,0.08),rgba(61,220,132,0.03));border-bottom:1px solid rgba(61,220,132,0.15);">
+        <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:6px;">
+          <span style="font-size:9px;font-family:monospace;letter-spacing:.12em;color:var(--green);text-transform:uppercase;flex-shrink:0;">Account-Based GTM</span>
+          <span style="font-size:10px;color:var(--text3);">思想・設計</span>
+        </div>
+        <div style="font-size:13.5px;line-height:1.7;color:var(--text);">
+          ターゲットアカウントを起点に、購買グループ・経営課題・提案ナラティブ・営業アクションを一体で設計する、<strong style="color:var(--green)">組織横断の戦略実行フレームワーク</strong>。
+        </div>
       </div>
+
+      <!-- Layer 2: ABX -->
+      <div style="padding:14px 20px;background:linear-gradient(135deg,rgba(99,179,237,0.07),rgba(99,179,237,0.03));border-bottom:1px solid rgba(99,179,237,0.15);">
+        <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:6px;">
+          <span style="font-size:9px;font-family:monospace;letter-spacing:.12em;color:var(--blue);text-transform:uppercase;flex-shrink:0;">ABX（Account-Based Experience）</span>
+          <span style="font-size:10px;color:var(--text3);">実行モデル</span>
+        </div>
+        <div style="font-size:13.5px;line-height:1.7;color:var(--text);">
+          Account-Based GTMを、<strong style="color:var(--accent-blue)">Sales・BDR・Marketingが連携してアカウント単位で実行する</strong>モデル。購買グループをトラッキングし、経営課題に寄り添う。
+        </div>
+      </div>
+
+      <!-- Layer 3: GTM COCKPIT -->
+      <div style="padding:14px 20px;background:linear-gradient(135deg,rgba(246,173,85,0.07),rgba(246,173,85,0.03));">
+        <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:6px;">
+          <span style="font-size:9px;font-family:monospace;letter-spacing:.12em;color:var(--amber);text-transform:uppercase;flex-shrink:0;">GTM COCKPIT</span>
+          <span style="font-size:10px;color:var(--text3);">実装基盤</span>
+        </div>
+        <div style="font-size:13.5px;line-height:1.7;color:var(--text);">
+          このABXを、<strong style="color:var(--amber)">少人数でスケールするためのAI-Native実行基盤</strong>。Human-in-the-Loopで、人の判断を軸にAIが実行を支援する。
+        </div>
+      </div>
+
     </div>
 
   </div>
@@ -1431,12 +1459,12 @@ body {
     <div class="slide-label" style="margin-bottom:12px">クロージング</div>
     <div class="closing-title">人の判断に、AIの力を。</div>
     <div class="closing-sub">
-      GTM COCKPITは、Marketing・BDR・Salesの知見をつなぎ、<br>
+      GTM COCKPITは、Sales・BDR・Marketingの知見をつなぎ、<br>
       Account-Based GTMを、少人数でスケールするための実行基盤です。
     </div>
     <div style="margin-top:24px;display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text3)">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-      双日テックイノベーション株式会社 &nbsp;|&nbsp; ブランドマーケティング推進室 &nbsp;|&nbsp; 山越 栄治
+      双日テックイノベーション株式会社
     </div>
   </div>
 </div>
