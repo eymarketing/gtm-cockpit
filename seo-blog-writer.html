@@ -1,0 +1,1690 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SEO Blog Writer v0.2 | GTM COCKPIT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:     #0d1117;
+  --bg2:    #161b22;
+  --bg3:    #1c2128;
+  --bg4:    #22272e;
+  --border: rgba(255,255,255,0.10);
+  --border2:rgba(255,255,255,0.18);
+  --text:   #f0f6fc;
+  --text2:  #8b949e;
+  --text3:  #6e7681;
+  --green:  #3ddc84;
+  --blue:   #4a9eff;
+  --amber:  #f5a623;
+  --purple: #a78bfa;
+  --red:    #e06060;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'Inter','Noto Sans JP',sans-serif;font-size:14px;line-height:1.6;min-height:100vh;display:flex;flex-direction:column;}
+
+/* ── HUDバー ── */
+.hud-bar{height:48px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 20px;gap:12px;flex-shrink:0;}
+.hud-logo{font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--text2);text-transform:uppercase;}
+.hud-sep{width:1px;height:20px;background:var(--border2);}
+.hud-title{font-size:13px;font-weight:600;color:var(--text);}
+.hud-badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px;background:rgba(74,158,255,0.15);color:var(--blue);border:1px solid rgba(74,158,255,0.3);}
+
+/* ── メインレイアウト ── */
+.app-layout{display:flex;flex:1;overflow:hidden;}
+
+/* ── サイドバー ── */
+.sidebar{width:56px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;align-items:center;padding:12px 0;gap:8px;flex-shrink:0;}
+.sidebar-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text3);font-size:16px;transition:background .15s,color .15s;}
+.sidebar-icon.active{background:rgba(74,158,255,0.15);color:var(--blue);}
+.sidebar-icon:hover:not(.active){background:var(--bg3);color:var(--text2);}
+
+/* ── コンテンツエリア ── */
+.content-area{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+
+/* ── タブバー ── */
+.tab-bar{height:44px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:flex-end;padding:0 24px;gap:0;flex-shrink:0;}
+.tab{padding:10px 20px;font-size:13px;font-weight:500;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;transition:color .15s,border-color .15s;white-space:nowrap;}
+.tab.active{color:var(--blue);border-bottom-color:var(--blue);}
+.tab:hover:not(.active){color:var(--text);}
+
+/* ── EPICフェーズバー ── */
+.epic-bar{background:var(--bg2);border-bottom:1px solid var(--border);padding:14px 24px;flex-shrink:0;}
+.epic-phases{display:flex;align-items:center;gap:0;}
+.epic-phase{display:flex;align-items:center;gap:0;flex:1;}
+.epic-node{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;transition:opacity .15s;}
+.epic-node-circle{width:28px;height:28px;border-radius:50%;border:2px solid var(--text3);background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--text3);transition:all .2s;}
+.epic-node.active .epic-node-circle{border-color:var(--blue);background:rgba(74,158,255,0.15);color:var(--blue);}
+.epic-node.done .epic-node-circle{border-color:var(--green);background:rgba(61,220,132,0.15);color:var(--green);}
+.epic-node-label{font-size:12px;font-weight:600;color:var(--text3);}
+.epic-node.active .epic-node-label{color:var(--blue);}
+.epic-node.done .epic-node-label{color:var(--green);}
+.epic-node-sub{font-size:10px;color:var(--text3);}
+.epic-node.active .epic-node-sub{color:rgba(74,158,255,0.7);}
+.epic-node.done .epic-node-sub{color:rgba(61,220,132,0.7);}
+.epic-connector{flex:1;height:2px;background:var(--border2);margin:0 8px;margin-bottom:20px;}
+.epic-connector.done{background:var(--green);}
+.epic-connector.active{background:var(--blue);}
+
+/* ── スプリットペイン ── */
+.split-pane{display:flex;flex:1;overflow:hidden;}
+.left-panel{width:40%;background:var(--bg2);border-right:1px solid var(--border);overflow-y:auto;flex-shrink:0;}
+.right-panel{flex:1;background:var(--bg);overflow-y:auto;}
+
+/* ── ウィザードセクション ── */
+.wizard-section{padding:20px 20px 0;}
+.wizard-section:last-child{padding-bottom:20px;}
+.section-header{display:flex;align-items:center;gap:8px;margin-bottom:14px;}
+.section-phase-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;letter-spacing:.06em;}
+.phase-e{background:rgba(74,158,255,0.15);color:var(--blue);border:1px solid rgba(74,158,255,0.3);}
+.phase-p{background:rgba(245,166,35,0.15);color:var(--amber);border:1px solid rgba(245,166,35,0.3);}
+.phase-i{background:rgba(167,139,250,0.15);color:var(--purple);border:1px solid rgba(167,139,250,0.3);}
+.phase-c{background:rgba(61,220,132,0.15);color:var(--green);border:1px solid rgba(61,220,132,0.3);}
+.section-title{font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;}
+.wizard-divider{height:1px;background:var(--border);margin:0 20px;}
+
+/* ── フォームアイテム ── */
+.form-item{margin-bottom:16px;}
+.form-label{font-size:12px;font-weight:600;color:var(--text2);margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.required-mark{color:var(--red);font-size:11px;}
+.optional-badge{font-size:10px;font-weight:500;padding:1px 6px;border-radius:3px;background:var(--bg4);color:var(--text3);border:1px solid var(--border);}
+
+/* ── ボタングループ ── */
+.btn-group{display:flex;gap:8px;flex-wrap:wrap;}
+.btn-option{padding:8px 14px;border-radius:6px;border:1px solid var(--border2);background:var(--bg3);color:var(--text2);font-size:12px;font-weight:500;cursor:pointer;transition:all .15s;text-align:center;flex:1;min-width:0;}
+.btn-option:hover{border-color:rgba(74,158,255,0.5);color:var(--text);}
+.btn-option.selected{border-color:var(--blue);background:rgba(74,158,255,0.1);color:var(--blue);}
+.btn-option-sub{font-size:10px;color:var(--text3);margin-top:2px;}
+.btn-option.selected .btn-option-sub{color:rgba(74,158,255,0.7);}
+
+/* ── 5択ロールボタン ── */
+.role-btn-group{display:flex;flex-direction:column;gap:6px;}
+.role-btn{padding:10px 14px;border-radius:6px;border:1px solid var(--border2);background:var(--bg3);color:var(--text);font-size:12px;font-weight:500;cursor:pointer;transition:all .15s;text-align:left;}
+.role-btn:hover{border-color:rgba(74,158,255,0.5);}
+.role-btn.selected{border-color:var(--blue);background:rgba(74,158,255,0.1);}
+.role-btn-desc{font-size:10px;color:var(--text3);margin-top:2px;}
+.role-btn.selected .role-btn-desc{color:rgba(74,158,255,0.7);}
+
+/* ── カード選択 ── */
+.card-group{display:flex;flex-direction:column;gap:8px;}
+.select-card{padding:12px 14px;border-radius:8px;border:1px solid var(--border2);background:var(--bg3);cursor:pointer;transition:all .15s;position:relative;}
+.select-card:hover{border-color:rgba(74,158,255,0.5);}
+.select-card.selected{border-color:var(--blue);background:rgba(74,158,255,0.08);}
+.select-card.recommended{border:1.5px dashed var(--blue);}
+.select-card.recommended-amber{border:1.5px dashed var(--amber);}
+.card-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:2px;}
+.card-flow{font-size:10px;color:var(--text2);margin-bottom:4px;}
+.card-desc{font-size:11px;color:var(--text2);line-height:1.5;}
+.rec-badge{position:absolute;top:8px;right:8px;font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;background:rgba(74,158,255,0.2);color:var(--blue);border:1px solid rgba(74,158,255,0.4);}
+.rec-badge.amber{background:rgba(245,166,35,0.2);color:var(--amber);border-color:rgba(245,166,35,0.4);}
+
+/* ── Step Bアコーディオン ── */
+.mobilizer-wrap{overflow:hidden;max-height:0;transition:max-height .3s ease;margin-top:0;}
+.mobilizer-wrap.open{max-height:600px;margin-top:12px;}
+.mobilizer-label{font-size:12px;font-weight:600;color:var(--text2);margin-bottom:8px;}
+
+/* ── ヘルパーテキスト ── */
+.helper-text{display:none;padding:10px 12px;background:var(--bg4);border-left:2px solid var(--blue);border-radius:0 6px 6px 0;font-size:11px;color:var(--text2);line-height:1.6;margin-top:8px;}
+.helper-text.purple-border{border-left-color:var(--purple);}
+.helper-text.visible{display:block;}
+
+/* ── テキスト入力 ── */
+.text-input{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:6px;color:var(--text);font-family:'Inter','Noto Sans JP',sans-serif;font-size:13px;padding:10px 12px;outline:none;transition:border-color .15s;}
+.text-input:focus{border-color:var(--blue);}
+.text-input::placeholder{color:var(--text3);}
+textarea.text-input{resize:vertical;min-height:80px;}
+.char-counter{font-size:11px;color:var(--text3);text-align:right;margin-top:4px;}
+.char-counter.warn{color:var(--amber);}
+
+/* ── PDFドロップゾーン ── */
+.pdf-drop{border:1px dashed var(--border2);border-radius:8px;padding:20px;text-align:center;cursor:pointer;transition:border-color .15s,background .15s;margin-top:10px;}
+.pdf-drop:hover{border-color:var(--blue);background:rgba(74,158,255,0.04);}
+.pdf-drop.has-file{border-color:var(--green);background:rgba(61,220,132,0.04);}
+.pdf-icon{font-size:24px;margin-bottom:6px;}
+.pdf-text{font-size:12px;color:var(--text3);}
+.pdf-file-info{font-size:12px;color:var(--green);margin-top:4px;}
+#pdf-input{display:none;}
+.pdf-both-info{display:none;margin-top:8px;padding:8px 10px;background:var(--bg4);border-radius:6px;font-size:11px;color:var(--text2);}
+.pdf-both-info.visible{display:block;}
+
+/* ── 生成ボタン ── */
+.generate-area{padding:16px 20px 20px;}
+.generate-hint{font-size:11px;color:var(--amber);text-align:center;margin-bottom:8px;min-height:16px;}
+.generate-btn{width:100%;height:44px;border-radius:8px;border:none;font-size:14px;font-weight:600;cursor:pointer;transition:opacity .15s;display:flex;align-items:center;justify-content:center;gap:6px;}
+.generate-btn.disabled{background:var(--text3);color:var(--bg3);cursor:not-allowed;opacity:0.5;}
+.generate-btn.enabled{background:var(--blue);color:#fff;}
+.generate-btn.enabled:hover{opacity:0.85;}
+
+/* ── 右パネル：空状態 ── */
+.preview-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;min-height:400px;gap:16px;padding:40px;}
+.preview-empty-icon{font-size:48px;opacity:0.4;}
+.preview-empty-main{font-size:16px;font-weight:600;color:var(--text2);}
+.preview-empty-sub{font-size:13px;color:var(--text3);}
+.preview-phase-chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
+.preview-phase-chip{padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600;border:1px solid var(--border2);color:var(--text3);}
+.preview-phase-chip.filled{border-color:var(--blue);color:var(--blue);background:rgba(74,158,255,0.1);}
+.preview-hint{font-size:11px;color:var(--text3);}
+
+/* ── ローディング ── */
+.preview-loading{padding:24px;display:none;}
+.skeleton{background:var(--bg3);border-radius:6px;margin-bottom:10px;position:relative;overflow:hidden;}
+.skeleton::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,0.04) 50%,transparent 100%);animation:shimmer 1.5s infinite;}
+@keyframes shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+.skeleton-h{height:20px;}
+.skeleton-text{height:14px;}
+.loading-label{text-align:center;font-size:13px;color:var(--text2);margin-bottom:20px;}
+
+/* ── 右パネル：出力 ── */
+.preview-content{padding:24px;display:none;}
+.brief-section{margin-bottom:24px;}
+.brief-section-title{font-size:11px;font-weight:700;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.brief-section-title::after{content:'';flex:1;height:1px;background:var(--border);}
+
+/* タイトル候補 */
+.title-candidates{display:flex;flex-direction:column;gap:8px;}
+.title-candidate{padding:10px 14px;background:var(--bg2);border:1px solid var(--border2);border-radius:8px;cursor:pointer;transition:border-color .15s;display:flex;align-items:flex-start;gap:10px;}
+.title-candidate:hover{border-color:var(--blue);}
+.title-num{font-size:11px;font-weight:700;color:var(--text3);padding-top:2px;flex-shrink:0;}
+.title-text{font-size:13px;color:var(--text);flex:1;}
+.copy-hint{font-size:10px;color:var(--text3);margin-top:2px;}
+
+/* ターゲットサマリー */
+.target-summary{padding:12px 14px;background:var(--bg2);border-radius:8px;border:1px solid var(--border);display:flex;gap:16px;flex-wrap:wrap;}
+.target-item{display:flex;flex-direction:column;gap:2px;}
+.target-label{font-size:10px;font-weight:600;color:var(--text3);}
+.target-value{font-size:12px;font-weight:600;color:var(--text);}
+
+/* EPIC/PREP/PASTOR段落構成 */
+.fw-phases{display:flex;flex-direction:column;gap:10px;}
+.fw-phase-block{padding:14px;background:var(--bg2);border-radius:8px;border-left:3px solid;}
+.fw-phase-block.empathy{border-color:var(--blue);}
+.fw-phase-block.problem{border-color:var(--amber);}
+.fw-phase-block.insight{border-color:var(--purple);}
+.fw-phase-block.cta-phase{border-color:var(--green);}
+.fw-phase-block.point{border-color:var(--blue);}
+.fw-phase-block.reason{border-color:var(--amber);}
+.fw-phase-block.example{border-color:var(--purple);}
+.fw-phase-block.pastor-p{border-color:var(--red);}
+.fw-phase-block.pastor-a{border-color:var(--amber);}
+.fw-phase-block.pastor-s{border-color:var(--purple);}
+.fw-phase-block.pastor-t{border-color:var(--blue);}
+.fw-phase-block.pastor-o{border-color:var(--green);}
+.fw-phase-block.pastor-r{border-color:var(--green);}
+.fw-phase-label{font-size:11px;font-weight:700;margin-bottom:8px;}
+.fw-phase-rows{display:flex;flex-direction:column;gap:6px;}
+.fw-row{display:flex;gap:8px;}
+.fw-row-label{font-size:10px;font-weight:600;color:var(--text3);width:64px;flex-shrink:0;padding-top:1px;}
+.fw-row-text{font-size:12px;color:var(--text2);line-height:1.5;}
+
+/* EEAT */
+.eeat-table{display:flex;flex-direction:column;gap:8px;}
+.eeat-row{display:flex;gap:12px;padding:10px 14px;background:var(--bg2);border-radius:8px;align-items:flex-start;}
+.eeat-key{font-size:11px;font-weight:700;width:88px;flex-shrink:0;}
+.eeat-val{font-size:12px;color:var(--text2);line-height:1.5;}
+
+/* ── コピー通知 ── */
+.copy-toast{position:fixed;bottom:24px;right:24px;background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:8px 16px;border-radius:8px;font-size:12px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:1000;}
+.copy-toast.show{opacity:1;}
+
+/* ── スクロールバー ── */
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+::-webkit-scrollbar-thumb:hover{background:var(--text3);}
+</style>
+</head>
+<body>
+
+<!-- HUDバー -->
+<div class="hud-bar">
+  <span class="hud-logo">GTM COCKPIT</span>
+  <div class="hud-sep"></div>
+  <span class="hud-title">SEO Blog Writer</span>
+  <span class="hud-badge">v0.2</span>
+</div>
+
+<!-- メインレイアウト -->
+<div class="app-layout">
+
+  <!-- サイドバー -->
+  <div class="sidebar">
+    <!-- Blog Writer（ペン＋紙） -->
+    <div class="sidebar-icon active" title="Blog Writer">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
+           stroke="currentColor" stroke-width="1.5"
+           stroke-linecap="round" stroke-linejoin="round">
+        <path d="M13 2.5l2.5 2.5-8.5 8.5H4.5V11L13 2.5z"/>
+        <line x1="2" y1="16" x2="16" y2="16"/>
+      </svg>
+    </div>
+    <!-- Evaluate（ドキュメント＋ルーペ） -->
+    <div class="sidebar-icon" title="Evaluate">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
+           stroke="currentColor" stroke-width="1.5"
+           stroke-linecap="round" stroke-linejoin="round">
+        <!-- ドキュメント -->
+        <rect x="1.5" y="1" width="10" height="13.5" rx="1.5"/>
+        <!-- テキスト行 -->
+        <line x1="4" y1="4.5" x2="9" y2="4.5"/>
+        <line x1="4" y1="7"   x2="9" y2="7"/>
+        <line x1="4" y1="9.5" x2="7" y2="9.5"/>
+        <!-- ルーペ -->
+        <circle cx="12" cy="12.5" r="3.5"/>
+        <line x1="14.5" y1="15.2" x2="16.8" y2="17.2"/>
+      </svg>
+    </div>
+    <!-- Calendar -->
+    <div class="sidebar-icon" title="Calendar">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
+           stroke="currentColor" stroke-width="1.5"
+           stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="3.5" width="14" height="13" rx="2"/>
+        <line x1="2" y1="8" x2="16" y2="8"/>
+        <line x1="6" y1="2" x2="6" y2="5"/>
+        <line x1="12" y1="2" x2="12" y2="5"/>
+        <circle cx="6.5"  cy="11.5" r="0.75" fill="currentColor" stroke="none"/>
+        <circle cx="9"    cy="11.5" r="0.75" fill="currentColor" stroke="none"/>
+        <circle cx="11.5" cy="11.5" r="0.75" fill="currentColor" stroke="none"/>
+      </svg>
+    </div>
+    <!-- Settings（ギア） -->
+    <div class="sidebar-icon" title="Settings">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
+           stroke="currentColor" stroke-width="1.5"
+           stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="9" r="2.5"/>
+        <path d="M9 1.5v2M9 14.5v2M1.5 9h2M14.5 9h2
+                 M3.7 3.7l1.4 1.4M12.9 12.9l1.4 1.4
+                 M3.7 14.3l1.4-1.4M12.9 5.1l1.4-1.4"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- コンテンツエリア -->
+  <div class="content-area">
+
+    <!-- タブバー -->
+    <div class="tab-bar">
+      <div class="tab active" onclick="switchTab('write')">
+        <svg width="13" height="13" viewBox="0 0 18 18" fill="none"
+             stroke="currentColor" stroke-width="1.5"
+             stroke-linecap="round" stroke-linejoin="round"
+             style="vertical-align:-1px; margin-right:5px;">
+          <path d="M13 2.5l2.5 2.5-8.5 8.5H4.5V11L13 2.5z"/>
+          <line x1="2" y1="16" x2="16" y2="16"/>
+        </svg>WRITE
+      </div>
+      <div class="tab" onclick="switchTab('evaluate')">
+        <svg width="13" height="13" viewBox="0 0 18 18" fill="none"
+             stroke="currentColor" stroke-width="1.5"
+             stroke-linecap="round" stroke-linejoin="round"
+             style="vertical-align:-1px; margin-right:5px;">
+          <rect x="1.5" y="1" width="10" height="13.5" rx="1.5"/>
+          <line x1="4" y1="4.5" x2="9" y2="4.5"/>
+          <line x1="4" y1="7"   x2="9" y2="7"/>
+          <line x1="4" y1="9.5" x2="7" y2="9.5"/>
+          <circle cx="12" cy="12.5" r="3.5"/>
+          <line x1="14.5" y1="15.2" x2="16.8" y2="17.2"/>
+        </svg>EVALUATE
+      </div>
+    </div>
+
+    <!-- EPICフェーズバー（WRITEタブのみ） -->
+    <div class="epic-bar" id="epic-bar">
+      <div class="epic-phases">
+        <div class="epic-phase">
+          <div class="epic-node active" id="node-e" onclick="jumpPhase('e')">
+            <div class="epic-node-circle" id="circle-e">E</div>
+            <div class="epic-node-label">Empathy</div>
+            <div class="epic-node-sub">誰に届けるか</div>
+          </div>
+        </div>
+        <div class="epic-connector" id="conn-ep"></div>
+        <div class="epic-phase">
+          <div class="epic-node" id="node-p" onclick="jumpPhase('p')">
+            <div class="epic-node-circle" id="circle-p">P</div>
+            <div class="epic-node-label">Problem</div>
+            <div class="epic-node-sub">何を伝えるか</div>
+          </div>
+        </div>
+        <div class="epic-connector" id="conn-pi"></div>
+        <div class="epic-phase">
+          <div class="epic-node" id="node-i" onclick="jumpPhase('i')">
+            <div class="epic-node-circle" id="circle-i">I</div>
+            <div class="epic-node-label">Insight</div>
+            <div class="epic-node-sub">どう伝えるか</div>
+          </div>
+        </div>
+        <div class="epic-connector" id="conn-ic"></div>
+        <div class="epic-phase">
+          <div class="epic-node" id="node-c" onclick="jumpPhase('c')">
+            <div class="epic-node-circle" id="circle-c">C</div>
+            <div class="epic-node-label">CTA</div>
+            <div class="epic-node-sub">行動喚起</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- スプリットペイン -->
+    <div class="split-pane">
+
+      <!-- 左パネル：ウィザード -->
+      <div class="left-panel" id="wizard-panel">
+
+        <!-- Phase 1: Empathy -->
+        <div class="wizard-section" id="phase-e-section">
+          <div class="section-header">
+            <span class="section-phase-badge phase-e">EMPATHY</span>
+            <span class="section-title">誰に届けるか</span>
+          </div>
+
+          <!-- 項目① ファネルステージ -->
+          <div class="form-item">
+            <div class="form-label">
+              ① ファネルステージ
+              <span class="required-mark">*</span>
+            </div>
+            <div class="btn-group">
+              <div class="btn-option" onclick="selectOption('funnel','TOFU',this)">
+                <div>TOFU</div>
+                <div class="btn-option-sub">認知・教育</div>
+              </div>
+              <div class="btn-option" onclick="selectOption('funnel','MOFU',this)">
+                <div>MOFU</div>
+                <div class="btn-option-sub">検討・比較</div>
+              </div>
+              <div class="btn-option" onclick="selectOption('funnel','BOFU',this)">
+                <div>BOFU</div>
+                <div class="btn-option-sub">意思決定</div>
+              </div>
+            </div>
+            <div class="helper-text" id="helper-funnel"></div>
+          </div>
+
+          <!-- 項目② ターゲット読者 -->
+          <div class="form-item">
+            <div class="form-label">
+              ② ターゲット読者
+              <span class="required-mark">*</span>
+            </div>
+            <div class="role-btn-group">
+              <div class="role-btn" onclick="selectOption('role','Champion',this)">
+                <div>Champion</div>
+                <div class="role-btn-desc">社内で変革を推進するキーパーソン</div>
+              </div>
+              <div class="role-btn" onclick="selectOption('role','Technical Evaluator',this)">
+                <div>Technical Evaluator</div>
+                <div class="role-btn-desc">技術・実装面から評価する専門家</div>
+              </div>
+              <div class="role-btn" onclick="selectOption('role','Economic Buyer',this)">
+                <div>Economic Buyer</div>
+                <div class="role-btn-desc">予算承認を行う意思決定者</div>
+              </div>
+              <div class="role-btn" onclick="selectOption('role','Decision Maker',this)">
+                <div>Decision Maker</div>
+                <div class="role-btn-desc">最終購買決定の権限者</div>
+              </div>
+              <div class="role-btn" onclick="selectOption('role','Influencer',this)">
+                <div>Influencer</div>
+                <div class="role-btn-desc">意思決定に影響を与えるが権限は持たない関係者</div>
+              </div>
+            </div>
+
+            <!-- Step B: Mobilizer Type（Champion選択時のみ） -->
+            <div class="mobilizer-wrap" id="mobilizer-wrap">
+              <div class="mobilizer-label">Mobilizer Type（Championの詳細）</div>
+              <div class="card-group">
+                <div class="select-card" id="mob-gogetter" onclick="selectOption('mobilizer','ゴー・ゲッター',this)">
+                  <div class="card-title">ゴー・ゲッター</div>
+                  <div class="card-desc">変革の機会を誰より早く察知し、周囲を巻き込んで実行に移す推進力の持ち主。方向性はすでに決まっている——あとは「今、動く根拠」が要る。現状維持のコストと変革の勝算を明快に示すコンテンツが武器になる。</div>
+                </div>
+                <div class="select-card" id="mob-teacher" onclick="selectOption('mobilizer','ティーチャー',this)">
+                  <div class="card-title">ティーチャー</div>
+                  <div class="card-desc">新しい視点を社内に広め、他者の認識を変えることに喜びを感じるインフルエンサー。コンテンツが「自分の言葉で語れる洞察」になるかどうかが刺さるかの分岐点。明快な構造と共有しやすいフレームが有効。</div>
+                </div>
+                <div class="select-card" id="mob-skeptic" onclick="selectOption('mobilizer','スケプティック',this)">
+                  <div class="card-title">スケプティック</div>
+                  <div class="card-desc">あらゆる前提を疑い、深い反論を投げかける。この反応こそが本物の証拠。一次データと誠実な反証で信頼を勝ち取ったとき、組織の中で最も説得力を持つ変革の推進者に変わる。</div>
+                </div>
+              </div>
+              <div class="helper-text purple-border" id="helper-mobilizer"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="wizard-divider"></div>
+
+        <!-- Phase 2: Problem -->
+        <div class="wizard-section" id="phase-p-section">
+          <div class="section-header" style="margin-top:16px;">
+            <span class="section-phase-badge phase-p">PROBLEM</span>
+            <span class="section-title">何を伝えるか</span>
+          </div>
+
+          <!-- 項目③ コンテンツ深度 -->
+          <div class="form-item">
+            <div class="form-label">
+              ③ コンテンツ深度
+              <span class="required-mark">*</span>
+            </div>
+            <div class="btn-group">
+              <div class="btn-option" onclick="selectOption('depth','概論',this)">
+                <div>概論</div>
+                <div class="btn-option-sub">3〜5分</div>
+              </div>
+              <div class="btn-option" onclick="selectOption('depth','実践',this)">
+                <div>実践</div>
+                <div class="btn-option-sub">5〜8分</div>
+              </div>
+              <div class="btn-option" onclick="selectOption('depth','専門',this)">
+                <div>専門</div>
+                <div class="btn-option-sub">8〜15分</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 項目④ ターゲットキーワード -->
+          <div class="form-item">
+            <div class="form-label">
+              ④ ターゲットキーワード
+              <span class="required-mark">*</span>
+            </div>
+            <input
+              type="text"
+              class="text-input"
+              id="keyword-input"
+              placeholder="例：製造業 DX 内製化"
+              maxlength="100"
+              oninput="handleCharCount(this,100,document.getElementById('kw-count'))"
+              onkeydown="if(event.key==='Enter'){jumpPhase('i');}"
+            >
+            <div class="char-counter" id="kw-count">0/100</div>
+          </div>
+        </div>
+
+        <div class="wizard-divider"></div>
+
+        <!-- Phase 3: Insight -->
+        <div class="wizard-section" id="phase-i-section">
+          <div class="section-header" style="margin-top:16px;">
+            <span class="section-phase-badge phase-i">INSIGHT</span>
+            <span class="section-title">どう伝えるか</span>
+          </div>
+
+          <!-- 項目⑤ ライティングFW -->
+          <div class="form-item">
+            <div class="form-label">
+              ⑤ ライティングフレームワーク
+              <span class="required-mark">*</span>
+            </div>
+            <div class="card-group" id="fw-card-group">
+              <div class="select-card" id="fw-epic" onclick="selectOption('fw','EPIC',this)">
+                <div class="card-title">EPIC</div>
+                <div class="card-flow">Empathy → Problem → Insight → CTA</div>
+                <div class="card-desc">推奨：TOFU/MOFU・重量コンテンツ</div>
+              </div>
+              <div class="select-card" id="fw-prep" onclick="selectOption('fw','PREP',this)">
+                <div class="card-title">PREP</div>
+                <div class="card-flow">Point → Reason → Example → Point</div>
+                <div class="card-desc">推奨：MOFU・速報/ブログ記事</div>
+              </div>
+              <div class="select-card" id="fw-pastor" onclick="selectOption('fw','PASTOR',this)">
+                <div class="card-title">PASTOR</div>
+                <div class="card-flow">Problem → Amplify → Story → Transformation → Offer → Response</div>
+                <div class="card-desc">推奨：BOFU・メルマガ/LP</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 項目⑥ 一次情報インプット -->
+          <div class="form-item">
+            <div class="form-label">
+              ⑥ 一次情報インプット
+              <span class="optional-badge">任意</span>
+            </div>
+            <textarea
+              class="text-input"
+              id="primary-info"
+              placeholder="例：当社の2025年製造業DX調査では、内製化を検討している企業の68%が…"
+              rows="4"
+              maxlength="600"
+              oninput="handleCharCount(this,600,document.getElementById('pi-count'));updatePdfBothInfo();"
+            ></textarea>
+            <div class="char-counter" id="pi-count">0/600</div>
+
+            <!-- PDFドロップゾーン -->
+            <div class="pdf-drop" id="pdf-drop" onclick="document.getElementById('pdf-input').click()" ondragover="event.preventDefault();this.style.borderColor='var(--blue)'" ondragleave="this.style.borderColor=''" ondrop="handlePDFDrop(event)">
+              <div class="pdf-icon">📄</div>
+              <div class="pdf-text">レポートPDFをドロップ or クリック</div>
+              <div class="pdf-file-info" id="pdf-file-info"></div>
+            </div>
+            <input type="file" id="pdf-input" accept=".pdf" onchange="handlePDFUpload(event)">
+
+            <div class="pdf-both-info" id="pdf-both-info">
+              📄 添付PDF: <span id="pdf-name-inline">—</span> &nbsp;✏️ テキストメモ: 入力あり<br>
+              <span style="color:var(--text3)">→ 両方を一次情報として活用してコンテンツを生成します</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="wizard-divider"></div>
+
+        <!-- Phase 4: CTA -->
+        <div class="wizard-section" id="phase-c-section">
+          <div class="section-header" style="margin-top:16px;">
+            <span class="section-phase-badge phase-c">CTA</span>
+            <span class="section-title">読者に促す行動を決める</span>
+          </div>
+
+          <!-- 項目⑦ STI紐付け -->
+          <div class="form-item">
+            <div class="form-label">
+              ⑦ STI紐付け
+              <span class="optional-badge">任意</span>
+            </div>
+            <div class="btn-group">
+              <div class="btn-option" onclick="selectOption('sti','Natic',this)">
+                <div>Natic</div>
+                <div class="btn-option-sub">サービスへ誘導</div>
+              </div>
+              <div class="btn-option" onclick="selectOption('sti','Azure',this)">
+                <div>Azure</div>
+                <div class="btn-option-sub">モダナイゼーション文脈</div>
+              </div>
+              <div class="btn-option selected" id="sti-none" onclick="selectOption('sti','なし',this)">
+                <div>なし</div>
+                <div class="btn-option-sub">EEAT重視</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 生成ボタン -->
+        <div class="generate-area">
+          <div class="generate-hint" id="generate-hint">残り4項目の入力が必要です</div>
+          <button class="generate-btn disabled" id="generate-btn" onclick="generateBrief()">
+            ✨ コンテンツブリーフを生成する
+          </button>
+        </div>
+
+      </div><!-- /wizard-panel -->
+
+      <!-- EVALUATEパネル（左） -->
+      <div id="evaluate-panel" style="display:none; flex-direction:column; gap:0; width:40%; background:var(--bg2); border-right:1px solid var(--border); overflow-y:auto; flex-shrink:0;">
+        <!-- サブタブ -->
+        <div style="display:flex; border-bottom:1px solid var(--border); padding:0 20px;">
+          <button id="eval-tab-url"
+            onclick="switchEvalInput('url')"
+            style="padding:12px 16px; border:none; background:transparent;
+                   color:var(--blue); font-size:13px; font-weight:600;
+                   border-bottom:2px solid var(--blue); cursor:pointer;">
+            🔗 URL入力
+          </button>
+          <button id="eval-tab-html"
+            onclick="switchEvalInput('html')"
+            style="padding:12px 16px; border:none; background:transparent;
+                   color:var(--text2); font-size:13px; font-weight:600;
+                   border-bottom:2px solid transparent; cursor:pointer;">
+            &lt;/&gt; HTMLソース
+          </button>
+        </div>
+        <!-- URL入力エリア -->
+        <div id="eval-input-url" style="padding:20px; display:flex; flex-direction:column; gap:12px;">
+          <label style="font-size:12px; font-weight:600; color:var(--text2); text-transform:uppercase; letter-spacing:0.5px;">
+            記事URL
+          </label>
+          <input id="eval-url-input" type="url"
+            placeholder="https://example.com/article"
+            style="width:100%; box-sizing:border-box; padding:10px 12px;
+                   background:var(--bg3); border:1px solid var(--border2);
+                   border-radius:6px; color:var(--text); font-size:13px;
+                   outline:none;"
+            onfocus="this.style.borderColor='var(--blue)'"
+            onblur="this.style.borderColor='var(--border2)'">
+          <div style="padding:10px 12px; background:var(--bg4);
+                      border-left:2px solid var(--amber); border-radius:4px;
+                      font-size:11px; color:var(--text2); line-height:1.6;">
+            ⚠️ MOCK：実URLのコンテンツ取得は非対応です。<br>
+            サンプルスコアを表示します（本番はAPI連携で実際の記事を解析）。
+          </div>
+        </div>
+        <!-- HTMLソース入力エリア -->
+        <div id="eval-input-html" style="padding:20px; display:none; flex-direction:column; gap:12px;">
+          <label style="font-size:12px; font-weight:600; color:var(--text2); text-transform:uppercase; letter-spacing:0.5px;">
+            記事のHTMLソースを貼り付け
+          </label>
+          <textarea id="eval-html-input" rows="12"
+            placeholder="&lt;!DOCTYPE html&gt;&#10;&lt;html&gt;...&#10;記事HTMLをここに貼り付けてください"
+            oninput="handleEvalCharCount()"
+            style="width:100%; box-sizing:border-box; padding:10px 12px;
+                   background:var(--bg3); border:1px solid var(--border2);
+                   border-radius:6px; color:var(--text); font-size:12px;
+                   font-family:monospace; resize:vertical; outline:none;
+                   line-height:1.5;"
+            onfocus="this.style.borderColor='var(--blue)'"
+            onblur="this.style.borderColor='var(--border2)'"></textarea>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span id="eval-char-count" style="font-size:11px; color:var(--text3);">0文字</span>
+            <span id="eval-html-hint" style="font-size:11px; color:var(--green); display:none;">
+              ✅ HTMLを解析して評価します
+            </span>
+          </div>
+        </div>
+        <!-- 評価ボタン -->
+        <div style="padding:0 20px 20px;">
+          <button id="eval-run-btn" onclick="evaluateContent()"
+            style="width:100%; height:44px; border:none; border-radius:8px;
+                   background:var(--blue); color:var(--bg); font-size:14px;
+                   font-weight:700; cursor:pointer; transition:opacity 0.2s;"
+            onmouseover="this.style.opacity='0.85'"
+            onmouseout="this.style.opacity='1'">
+            📊 評価を実行する
+          </button>
+        </div>
+        <!-- ワークフローガイド -->
+        <div style="margin:0 20px 20px; padding:16px; background:var(--bg4);
+                    border:1px solid var(--border); border-radius:8px;">
+          <div style="font-size:11px; font-weight:700; color:var(--text2);
+                      text-transform:uppercase; letter-spacing:0.5px; margin-bottom:12px;">
+            推奨ワークフロー
+          </div>
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <div style="display:flex; gap:10px; align-items:flex-start;">
+              <div style="min-width:22px; height:22px; border-radius:50%;
+                          background:var(--blue); color:var(--bg);
+                          font-size:11px; font-weight:700;
+                          display:flex; align-items:center; justify-content:center;">1</div>
+              <div style="font-size:12px; color:var(--text); line-height:1.5;">
+                公開済み記事を <strong>URL入力</strong> で評価
+              </div>
+            </div>
+            <div style="margin-left:11px; width:1px; height:8px; background:var(--border2);"></div>
+            <div style="display:flex; gap:10px; align-items:flex-start;">
+              <div style="min-width:22px; height:22px; border-radius:50%;
+                          background:var(--bg3); border:1px solid var(--border2);
+                          color:var(--text2); font-size:11px; font-weight:700;
+                          display:flex; align-items:center; justify-content:center;">2</div>
+              <div style="font-size:12px; color:var(--text2); line-height:1.5;">
+                WRITEモードでリライト
+              </div>
+            </div>
+            <div style="margin-left:11px; width:1px; height:8px; background:var(--border2);"></div>
+            <div style="display:flex; gap:10px; align-items:flex-start;">
+              <div style="min-width:22px; height:22px; border-radius:50%;
+                          background:var(--bg3); border:1px solid var(--border2);
+                          color:var(--text2); font-size:11px; font-weight:700;
+                          display:flex; align-items:center; justify-content:center;">3</div>
+              <div style="font-size:12px; color:var(--text2); line-height:1.5;">
+                公開前に <strong>HTMLソース</strong> で再評価
+              </div>
+            </div>
+            <div style="margin-left:11px; width:1px; height:8px; background:var(--border2);"></div>
+            <div style="display:flex; gap:10px; align-items:flex-start;">
+              <div style="min-width:22px; height:22px; border-radius:50%;
+                          background:var(--bg3); border:1px solid var(--border2);
+                          color:var(--text2); font-size:11px; font-weight:700;
+                          display:flex; align-items:center; justify-content:center;">4</div>
+              <div style="font-size:12px; color:var(--text2); line-height:1.5;">
+                再公開 → URL再評価
+              </div>
+            </div>
+          </div>
+        </div>
+      </div><!-- /evaluate-panel -->
+
+      <!-- 右パネル：プレビュー -->
+      <div class="right-panel" id="preview-panel">
+
+        <!-- 空状態 -->
+        <div class="preview-empty" id="preview-empty">
+          <!-- WRITE用 Empty State -->
+          <div id="write-empty-state" style="display:flex; flex-direction:column; align-items:center; gap:16px; text-align:center;">
+            <div class="preview-empty-icon">📝</div>
+            <div class="preview-empty-main">コンテンツブリーフがここに生成されます</div>
+            <div class="preview-empty-sub">左のウィザードを入力すると</div>
+            <div class="preview-phase-chips">
+              <div class="preview-phase-chip" id="chip-e">[Empathy]</div>
+              <div class="preview-phase-chip" id="chip-p">[Problem]</div>
+              <div class="preview-phase-chip" id="chip-i">[Insight]</div>
+              <div class="preview-phase-chip" id="chip-c">[CTA]</div>
+            </div>
+            <div class="preview-hint">← 入力するごとにリアルタイム更新</div>
+          </div>
+          <!-- EVALUATE用 Empty State -->
+          <div id="eval-empty-state" style="display:none; flex-direction:column;
+               align-items:center; justify-content:center; gap:16px; text-align:center;">
+            <div style="font-size:40px; opacity:0.3;">📊</div>
+            <div style="font-size:14px; font-weight:600; color:var(--text);">
+              記事のURLまたはHTMLソースを入力して
+            </div>
+            <div style="font-size:13px; color:var(--text2);">
+              評価を実行してください
+            </div>
+            <div style="display:flex; gap:8px; margin-top:4px; flex-wrap:wrap; justify-content:center;">
+              <span style="padding:4px 10px; border-radius:12px; border:1px solid var(--border2);
+                           font-size:11px; color:var(--text2);">AIO 4項目</span>
+              <span style="padding:4px 10px; border-radius:12px; border:1px solid var(--border2);
+                           font-size:11px; color:var(--text2);">SEO 4項目</span>
+              <span style="padding:4px 10px; border-radius:12px; border:1px solid var(--border2);
+                           font-size:11px; color:var(--text2);">SEO技術 1項目</span>
+              <span style="padding:4px 10px; border-radius:12px; border:1px solid var(--border2);
+                           font-size:11px; color:var(--text2);">GEO 4項目</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ローディング -->
+        <div class="preview-loading" id="preview-loading">
+          <div class="loading-label">生成中...</div>
+          <div class="skeleton skeleton-h" style="width:60%;margin-bottom:16px;"></div>
+          <div class="skeleton skeleton-h" style="width:40%;margin-bottom:24px;"></div>
+          <div class="skeleton skeleton-text" style="width:100%;margin-bottom:6px;"></div>
+          <div class="skeleton skeleton-text" style="width:90%;margin-bottom:6px;"></div>
+          <div class="skeleton skeleton-text" style="width:95%;margin-bottom:6px;"></div>
+          <div class="skeleton skeleton-text" style="width:80%;margin-bottom:24px;"></div>
+          <div class="skeleton skeleton-h" style="width:50%;margin-bottom:16px;"></div>
+          <div class="skeleton skeleton-text" style="width:100%;margin-bottom:6px;"></div>
+          <div class="skeleton skeleton-text" style="width:88%;margin-bottom:6px;"></div>
+          <div class="skeleton skeleton-text" style="width:76%;"></div>
+        </div>
+
+        <!-- 生成後コンテンツ（WRITE） -->
+        <div class="preview-content" id="preview-content"></div>
+
+        <!-- 評価結果エリア（EVALUATE） -->
+        <div id="eval-result-panel" style="display:none; height:100%; overflow-y:auto; padding:24px;"></div>
+
+      </div><!-- /right-panel -->
+
+    </div><!-- /split-pane -->
+
+  </div><!-- /content-area -->
+
+</div><!-- /app-layout -->
+
+<!-- コピートースト -->
+<div class="copy-toast" id="copy-toast">✓ クリップボードにコピーしました</div>
+
+<script>
+// ── 状態管理 ──────────────────────────────────────────────────────
+const state = {
+  funnel: null,
+  role: null,
+  mobilizer: null,
+  depth: null,
+  keyword: '',
+  fw: null,
+  primaryInfo: '',
+  pdfFile: null,
+  sti: 'なし',
+  currentPhase: 'e'
+};
+var lastEvalResult = null;
+
+// ── 初期化 ────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', function() {
+  initPhaseBar();
+  document.getElementById('keyword-input').addEventListener('input', function() {
+    state.keyword = this.value.trim();
+    checkGenerateButtonState();
+    updatePhaseBar();
+    updatePreviewChips();
+  });
+  document.getElementById('primary-info').addEventListener('input', function() {
+    state.primaryInfo = this.value;
+  });
+  state.sti = 'なし';
+});
+
+// ── initPhaseBar ─────────────────────────────────────────────────
+function initPhaseBar() {
+  updatePhaseBar();
+}
+
+// ── selectOption ─────────────────────────────────────────────────
+function selectOption(groupName, value, element) {
+  if (groupName === 'funnel') {
+    document.querySelectorAll('[onclick^="selectOption(\'funnel\'"]').forEach(el => el.classList.remove('selected'));
+  } else if (groupName === 'role') {
+    document.querySelectorAll('.role-btn').forEach(el => el.classList.remove('selected'));
+  } else if (groupName === 'mobilizer') {
+    document.querySelectorAll('#mobilizer-wrap .select-card').forEach(el => el.classList.remove('selected'));
+  } else if (groupName === 'depth') {
+    document.querySelectorAll('[onclick^="selectOption(\'depth\'"]').forEach(el => el.classList.remove('selected'));
+  } else if (groupName === 'fw') {
+    document.querySelectorAll('#fw-card-group .select-card').forEach(function(el) {
+      el.classList.remove('selected', 'recommended', 'recommended-amber');
+      var b = el.querySelector('.rec-badge');
+      if (b) b.remove();
+    });
+  } else if (groupName === 'sti') {
+    document.querySelectorAll('[onclick^="selectOption(\'sti\'"]').forEach(el => el.classList.remove('selected'));
+  }
+
+  element.classList.add('selected');
+  state[groupName] = value;
+
+  showHelperText(groupName, value);
+
+  if (groupName === 'role') {
+    toggleMobilizerType(value);
+    if (value !== 'Champion') {
+      state.mobilizer = null;
+    }
+  }
+
+  if (groupName === 'funnel' || groupName === 'role' || groupName === 'mobilizer' || groupName === 'fw') {
+    updateFWRecommendation();
+  }
+
+  checkGenerateButtonState();
+  updatePhaseBar();
+  updatePreviewChips();
+}
+
+// ── updatePhaseBar ────────────────────────────────────────────────
+function updatePhaseBar() {
+  const eComplete = state.funnel && state.role && (state.role !== 'Champion' || state.mobilizer);
+  const pComplete = state.depth && state.keyword;
+  const iComplete = state.fw !== null;
+
+  setNodeState('e', eComplete ? 'done' : (state.currentPhase === 'e' ? 'active' : 'inactive'));
+  setNodeState('p', pComplete ? 'done' : (state.currentPhase === 'p' ? 'active' : (eComplete ? 'active' : 'inactive')));
+  setNodeState('i', iComplete ? 'done' : (state.currentPhase === 'i' ? 'active' : (pComplete ? 'active' : 'inactive')));
+  setNodeState('c', state.currentPhase === 'c' ? 'active' : (iComplete ? 'active' : 'inactive'));
+
+  document.getElementById('conn-ep').className = 'epic-connector' + (eComplete ? ' done' : '');
+  document.getElementById('conn-pi').className = 'epic-connector' + (pComplete ? ' done' : '');
+  document.getElementById('conn-ic').className = 'epic-connector' + (iComplete ? ' done' : '');
+}
+
+function setNodeState(phase, stateName) {
+  const node = document.getElementById('node-' + phase);
+  const circle = document.getElementById('circle-' + phase);
+  node.className = 'epic-node' + (stateName === 'active' ? ' active' : stateName === 'done' ? ' done' : '');
+  circle.textContent = stateName === 'done' ? '✓' : phase.toUpperCase();
+}
+
+// ── checkGenerateButtonState ──────────────────────────────────────
+function checkGenerateButtonState() {
+  const btn = document.getElementById('generate-btn');
+  const hint = document.getElementById('generate-hint');
+
+  const checks = [
+    ['① ファネルステージ', !!state.funnel],
+    ['② ターゲット読者',   !!state.role],
+    ['③ コンテンツ深度',   !!state.depth],
+    ['④ キーワード',       !!state.keyword]
+  ];
+
+  const missing = checks.filter(function(c) { return !c[1]; });
+
+  if (missing.length === 0) {
+    btn.className = 'generate-btn enabled';
+    hint.textContent = '';
+  } else {
+    btn.className = 'generate-btn disabled';
+    hint.textContent = '残り' + missing.length + '項目の入力が必要です';
+  }
+}
+
+// ── showHelperText ────────────────────────────────────────────────
+function showHelperText(phase, value) {
+  var helperTexts = {
+    funnel: {
+      'TOFU': 'EPICのEmpathyが特に重要。読者の日常的な課題から入ること。認知フェーズでは「わかる」という共感から始めると効果的。',
+      'MOFU': '比較・論拠が鍵。PREPが最も合いやすい。読者はすでに課題を認識しているので、解決策の優位性を論理的に示すことが重要。',
+      'BOFU': '信頼と証拠が決め手。PASTORのStory→Transformationを厚く。読者の背中を押す「最後の一押し」を意識した設計に。'
+    },
+    mobilizer: {
+      'ゴー・ゲッター': 'InsightフェーズでROI・スピード・競合優位性を論理的に提示。現状維持のコストを定量化する。',
+      'ティーチャー': 'Insightフェーズで共有しやすいフレームと1文の明快な洞察を。コンテンツの構造が社内説明の武器になる。',
+      'スケプティック': '支持文は必ず一次データ＋反証で構成。Insightフェーズは読者が気づいていない事実で購買基準を書き換える設計に。'
+    }
+  };
+
+  if (phase === 'funnel') {
+    var el = document.getElementById('helper-funnel');
+    var text = helperTexts.funnel[value];
+    if (text) { el.textContent = text; el.classList.add('visible'); }
+  } else if (phase === 'mobilizer') {
+    var el2 = document.getElementById('helper-mobilizer');
+    var text2 = helperTexts.mobilizer[value];
+    if (text2) { el2.textContent = text2; el2.classList.add('visible'); }
+  }
+}
+
+// ── toggleMobilizerType ───────────────────────────────────────────
+function toggleMobilizerType(roleValue) {
+  var wrap = document.getElementById('mobilizer-wrap');
+  if (roleValue === 'Champion') {
+    wrap.classList.add('open');
+  } else {
+    wrap.classList.remove('open');
+    document.querySelectorAll('#mobilizer-wrap .select-card').forEach(function(el) { el.classList.remove('selected'); });
+    document.getElementById('helper-mobilizer').classList.remove('visible');
+    state.mobilizer = null;
+  }
+}
+
+// ── updateFWRecommendation ────────────────────────────────────────
+function updateFWRecommendation() {
+  // まず全カードの推奨状態をクリア
+  document.querySelectorAll('#fw-card-group .rec-badge').forEach(function(el) { el.remove(); });
+  document.querySelectorAll('#fw-card-group .select-card').forEach(function(el) {
+    el.classList.remove('recommended', 'recommended-amber');
+  });
+
+  // 推奨FWを決定
+  var f = state.funnel, r = state.role, m = state.mobilizer;
+  var recFw = null, recColor = 'blue';
+  if (f === 'BOFU') {
+    recFw = 'fw-pastor'; recColor = 'amber';
+  } else if (f === 'MOFU' && r === 'Champion' && m === 'ティーチャー') {
+    recFw = 'fw-epic';
+  } else if (f === 'MOFU' && r === 'Technical Evaluator') {
+    recFw = 'fw-prep';
+  } else if (f === 'TOFU') {
+    recFw = 'fw-epic';
+  } else if (f === 'MOFU') {
+    recFw = 'fw-prep';
+  }
+  if (!recFw) return;
+
+  // state.fw との比較：推奨カードが選択済みかどうか
+  // recFw='fw-epic' → recValue='EPIC' に変換して state.fw と照合
+  var recValue = recFw.replace('fw-', '').toUpperCase();
+  var hasFwSelected = (state.fw !== null);
+  var isRecSelected = (state.fw === recValue);
+
+  // 表示ルール：
+  // ① FW未選択 → 推奨カードにdashed枠＋バッジ表示
+  // ② FW選択済み＋推奨カード＝選択カード → バッジのみ表示（枠はselectedのsolid枠が優先）
+  // ③ FW選択済み＋推奨カード≠選択カード → 何も表示しない
+  if (!hasFwSelected || isRecSelected) {
+    var card = document.getElementById(recFw);
+    if (!hasFwSelected) {
+      card.classList.add(recColor === 'amber' ? 'recommended-amber' : 'recommended');
+    }
+    var badge = document.createElement('div');
+    badge.className = recColor === 'amber' ? 'rec-badge amber' : 'rec-badge';
+    badge.textContent = '推奨 ✓';
+    card.appendChild(badge);
+  }
+}
+
+// ── handlePDFUpload ───────────────────────────────────────────────
+function handlePDFUpload(event) {
+  var file = event.target.files[0];
+  if (!file) return;
+  state.pdfFile = file;
+  var drop = document.getElementById('pdf-drop');
+  var info = document.getElementById('pdf-file-info');
+  drop.classList.add('has-file');
+  info.textContent = '✓ ' + file.name + ' を参照してコンテンツを生成します';
+  updatePdfBothInfo();
+}
+
+function handlePDFDrop(event) {
+  event.preventDefault();
+  document.getElementById('pdf-drop').style.borderColor = '';
+  var file = event.dataTransfer.files[0];
+  if (file && file.type === 'application/pdf') {
+    state.pdfFile = file;
+    var drop = document.getElementById('pdf-drop');
+    var info = document.getElementById('pdf-file-info');
+    drop.classList.add('has-file');
+    info.textContent = '✓ ' + file.name + ' を参照してコンテンツを生成します';
+    updatePdfBothInfo();
+  }
+}
+
+function updatePdfBothInfo() {
+  var bothInfo = document.getElementById('pdf-both-info');
+  var hasText = document.getElementById('primary-info').value.trim().length > 0;
+  var hasPdf = !!state.pdfFile;
+  if (hasText && hasPdf) {
+    document.getElementById('pdf-name-inline').textContent = state.pdfFile.name;
+    bothInfo.classList.add('visible');
+  } else {
+    bothInfo.classList.remove('visible');
+  }
+}
+
+// ── handleCharCount ───────────────────────────────────────────────
+function handleCharCount(inputEl, maxLen, countEl) {
+  var len = inputEl.value.length;
+  countEl.textContent = len + '/' + maxLen;
+  if (len > maxLen * 0.9) {
+    countEl.classList.add('warn');
+  } else {
+    countEl.classList.remove('warn');
+  }
+}
+
+// ── generateBrief ─────────────────────────────────────────────────
+function generateBrief() {
+  if (document.getElementById('generate-btn').classList.contains('disabled')) return;
+
+  document.getElementById('preview-empty').style.display = 'none';
+  document.getElementById('preview-loading').style.display = 'block';
+  document.getElementById('preview-content').style.display = 'none';
+
+  setTimeout(function() {
+    document.getElementById('preview-loading').style.display = 'none';
+    var data = {
+      funnel: state.funnel,
+      role: state.role,
+      mobilizer: state.mobilizer,
+      depth: state.depth,
+      keyword: state.keyword,
+      fw: state.fw || 'EPIC',
+      primaryInfo: state.primaryInfo,
+      pdfFile: state.pdfFile,
+      sti: state.sti
+    };
+    renderBriefContent(data);
+    document.getElementById('preview-content').style.display = 'block';
+  }, 1800);
+}
+
+// ── renderBriefContent ────────────────────────────────────────────
+function renderBriefContent(data) {
+  var kw = data.keyword || 'ターゲットキーワード';
+  var kwMain = kw.split(' ')[0] || kw;
+
+  var titleMap = {
+    'TOFU': [
+      kwMain + 'の現実：68%の企業が直面する3つの壁',
+      kwMain + '入門——なぜ今、現場が動けないのか',
+      '[業界調査] ' + kwMain + '2025：変革を阻む構造的課題'
+    ],
+    'MOFU': [
+      '内製化 vs 外注——' + kwMain + '担当者が知るべき判断基準',
+      kwMain + '成功の分岐点：3社の比較から見えた共通点',
+      '[比較ガイド] ' + kwMain + '推進ツール選定の決定版チェックリスト'
+    ],
+    'BOFU': [
+      '[導入事例] ' + kwMain + 'で年間コスト30%削減を実現した方法',
+      kwMain + '導入ROI試算：6ヶ月で回収できる根拠',
+      'なぜ競合は' + kwMain + 'で先行できたのか——成功の再現性'
+    ]
+  };
+
+  var titles = titleMap[data.funnel] || titleMap['TOFU'];
+  var nums = ['①', '②', '③'];
+
+  var roleLabel = data.mobilizer ? data.role + '（' + data.mobilizer + '）' : data.role;
+  var stiLabel = data.sti === 'なし' ? 'EEAT重視（誘導なし）' : data.sti + 'へ誘導';
+
+  var titlesHtml = titles.map(function(t, i) {
+    var safe = t.replace(/'/g, '&#39;');
+    return '<div class="title-candidate" onclick="copyToClipboard(\'' + safe + '\')">'
+      + '<div class="title-num">' + nums[i] + '</div>'
+      + '<div>'
+      + '<div class="title-text">' + t + '</div>'
+      + '<div class="copy-hint">クリックでコピー</div>'
+      + '</div>'
+      + '</div>';
+  }).join('');
+
+  var fwBlocks = buildFWBlocks(data);
+  var eeatRows = buildEEAT(data);
+
+  var html = '<div class="brief-section">'
+    + '<div class="brief-section-title"><svg viewBox="0 0 18 18" style="width:14px;height:14px;vertical-align:-2px;margin-right:6px;" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="1" width="11" height="14" rx="1.5"/><line x1="4.5" y1="5" x2="10.5" y2="5"/><line x1="4.5" y1="7.5" x2="10.5" y2="7.5"/><line x1="4.5" y1="10" x2="8" y2="10"/></svg>タイトル候補</div>'
+    + '<div class="title-candidates">' + titlesHtml + '</div>'
+    + '</div>'
+    + '<div class="brief-section">'
+    + '<div class="brief-section-title"><svg viewBox="0 0 18 18" style="width:14px;height:14px;vertical-align:-2px;margin-right:6px;" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="6"/><circle cx="9" cy="9" r="2.5"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="9" y1="14" x2="9" y2="17"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="14" y1="9" x2="17" y2="9"/></svg>ターゲット設定</div>'
+    + '<div class="target-summary">'
+    + '<div class="target-item"><div class="target-label">ファネル</div><div class="target-value">' + data.funnel + '</div></div>'
+    + '<div class="target-item"><div class="target-label">読者</div><div class="target-value">' + roleLabel + '</div></div>'
+    + '<div class="target-item"><div class="target-label">深度</div><div class="target-value">' + data.depth + '</div></div>'
+    + '<div class="target-item"><div class="target-label">フレームワーク</div><div class="target-value">' + data.fw + '</div></div>'
+    + '<div class="target-item"><div class="target-label">CTA</div><div class="target-value">' + stiLabel + '</div></div>'
+    + '</div>'
+    + '</div>'
+    + '<div class="brief-section">'
+    + '<div class="brief-section-title"><svg viewBox="0 0 18 18" style="width:14px;height:14px;vertical-align:-2px;margin-right:6px;" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 1.5L2.5 4.5V9c0 3.5 2.8 6.5 6.5 7.5 3.7-1 6.5-4 6.5-7.5V4.5L9 1.5z"/><polyline points="6,9 8,11 12,7"/></svg>全体品質設計（EEAT）</div>'
+    + '<div class="eeat-table">' + eeatRows + '</div>'
+    + '</div>'
+    + '<div class="brief-section">'
+    + '<div class="brief-section-title"><svg viewBox="0 0 18 18" style="width:14px;height:14px;vertical-align:-2px;margin-right:6px;" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1.5" y="1.5" width="15" height="15" rx="2"/><line x1="4" y1="6" x2="14" y2="6"/><line x1="4" y1="9" x2="14" y2="9"/><line x1="4" y1="12" x2="10" y2="12"/></svg>' + data.fw + ' 段落構成</div>'
+    + '<div class="fw-phases">' + fwBlocks + '</div>'
+    + '</div>';
+
+  document.getElementById('preview-content').innerHTML = html;
+}
+
+function buildFWBlocks(data) {
+  var kw = data.keyword || 'テーマ';
+  var hasData = data.primaryInfo || data.pdfFile;
+  var dataNote = hasData ? '（一次情報・PDFから引用）' : '（データ・調査結果を記述）';
+  var stiCta = data.sti === 'なし' ? '関連記事・ホワイトペーパーへの誘導' : data.sti + 'のサービスページへの自然な誘導';
+
+  function row(label, text) {
+    return '<div class="fw-row"><div class="fw-row-label">' + label + '</div><div class="fw-row-text">' + text + '</div></div>';
+  }
+  function block(cls, labelColor, labelText, rows) {
+    return '<div class="fw-phase-block ' + cls + '">'
+      + '<div class="fw-phase-label" style="color:' + labelColor + '">' + labelText + '</div>'
+      + '<div class="fw-phase-rows">' + rows + '</div>'
+      + '</div>';
+  }
+
+  if (data.fw === 'EPIC') {
+    return block('empathy', 'var(--blue)', '【E：Empathy — 共感】',
+        row('トピック文', kw + 'の現場は今、複数の矛盾した要求に同時に応えることを迫られている。')
+      + row('支持文①', dataNote)
+      + row('支持文②', '（業界実態・現場感を記述）')
+      + row('結論文', '「日々向き合う現場の葛藤」を認める表現で締める'))
+    + block('problem', 'var(--amber)', '【P：Problem — 課題深掘り】',
+        row('トピック文', kw + 'を進めたくても、スキルセットと予算の壁が立ちはだかっている。')
+      + row('支持文①', '（数値データ/調査結果）')
+      + row('支持文②', '（具体的な失敗パターン）')
+      + row('結論文', '課題の根本原因を1文で明示'))
+    + block('insight', 'var(--purple)', '【I：Insight — 洞察・気づき】',
+        row('トピック文', '成功した企業が共通して取ったのは、全面移行ではなくハイブリッドアプローチだ。')
+      + row('支持文①', dataNote)
+      + row('支持文②', '（成功事例の共通パターン）')
+      + row('結論文', '読者の認識転換を促す1文（コマーシャルインサイト）'))
+    + block('cta-phase', 'var(--green)', '【C：CTA — 行動喚起】',
+        row('トピック文', '次のステップは、自社の成熟度を診断することだ。')
+      + row('支持文①', '（診断・相談の価値を説明）')
+      + row('結論文', stiCta));
+  } else if (data.fw === 'PREP') {
+    return block('point', 'var(--blue)', '【P：Point — 結論先出し】',
+        row('主張', kw + 'において、〇〇のアプローチが最も有効だ。')
+      + row('補足', 'この記事で3つの根拠と実例を示す'))
+    + block('reason', 'var(--amber)', '【R：Reason — 根拠】',
+        row('根拠①', dataNote)
+      + row('根拠②', '（論理的説明・メカニズム）')
+      + row('根拠③', '（比較データ・業界標準との対比）'))
+    + block('example', 'var(--purple)', '【E：Example — 具体例】',
+        row('事例', '（実際の導入事例・ケーススタディ）')
+      + row('数値', '（定量的成果・ROI）'))
+    + block('point', 'var(--blue)', '【P：Point — 結論再提示＋CTA】',
+        row('再提示', '改めて、' + kw + 'で成果を出す鍵は〇〇だ。')
+      + row('CTA', stiCta));
+  } else {
+    return block('pastor-p', 'var(--red)', '【P：Problem — 問題提起】',
+        row('課題提示', kw + 'で悩む読者の現状を生々しく描写する')
+      + row('痛点', '（失敗・損失・機会損失を具体的に）'))
+    + block('pastor-a', 'var(--amber)', '【A：Amplify — 問題拡大】',
+        row('拡大', '放置した場合のコスト・リスクを定量化')
+      + row('緊急性', '（競合優位性の喪失・市場変化）'))
+    + block('pastor-s', 'var(--purple)', '【S：Story — 物語】',
+        row('事例', dataNote)
+      + row('変化', '（Before → After のストーリー）'))
+    + block('pastor-t', 'var(--blue)', '【T：Transformation — 変革提示】',
+        row('洞察', '読者が「自分もできる」と感じる転換点を設計')
+      + row('根拠', '（再現性の証明）'))
+    + block('pastor-o', 'var(--green)', '【O：Offer — 提案】',
+        row('提案', '具体的な解決策・サービスを提示')
+      + row('価値', '（ROI・差別化ポイント）'))
+    + block('pastor-r', 'var(--green)', '【R：Response — 行動喚起】',
+        row('CTA', stiCta)
+      + row('緊急性', '（今すぐ行動する理由）'));
+  }
+}
+
+function buildEEAT(data) {
+  var hasData = data.primaryInfo || data.pdfFile;
+  var authorityText = data.pdfFile
+    ? '「' + data.pdfFile.name + '」を一次ソースとして明示'
+    : 'STI独自調査・業界統計をソースURL付きで明示';
+  var trustText = 'ソースURL表示・過度な自社誘導なし'
+    + (data.sti === 'なし' ? '（中立的なEEAT重視設計）' : '・' + data.sti + 'への自然な文脈誘導');
+
+  return '<div class="eeat-row"><div class="eeat-key" style="color:var(--blue)">Experience</div><div class="eeat-val">Empathyフェーズの「現場感」トーン。読者の日常に寄り添う具体的な情景描写を入れる</div></div>'
+    + '<div class="eeat-row"><div class="eeat-key" style="color:var(--purple)">Expertise</div><div class="eeat-val">Insightフェーズの一次情報引用' + (hasData ? '（添付データを活用）' : '（調査データ・統計を引用）') + '</div></div>'
+    + '<div class="eeat-row"><div class="eeat-key" style="color:var(--amber)">Authority</div><div class="eeat-val">' + authorityText + '</div></div>'
+    + '<div class="eeat-row"><div class="eeat-key" style="color:var(--green)">Trust</div><div class="eeat-val">' + trustText + '</div></div>';
+}
+
+// ── switchTab ─────────────────────────────────────────────────────
+function switchTab(tabName) {
+  document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+  if (tabName === 'write') {
+    document.querySelectorAll('.tab')[0].classList.add('active');
+    document.getElementById('epic-bar').style.display = 'block';
+    document.getElementById('wizard-panel').style.display = 'block';
+    document.getElementById('evaluate-panel').style.display = 'none';
+    // 右パネル
+    document.getElementById('eval-result-panel').style.display = 'none';
+    document.getElementById('eval-empty-state').style.display = 'none';
+    var pc = document.getElementById('preview-content');
+    var pe = document.getElementById('preview-empty');
+    if (pc && pc.innerHTML.trim() !== '') {
+      pc.style.display = 'block';
+      pe.style.display = 'none';
+    } else {
+      pe.style.display = 'flex';
+      document.getElementById('write-empty-state').style.display = 'flex';
+    }
+  } else {
+    document.querySelectorAll('.tab')[1].classList.add('active');
+    document.getElementById('epic-bar').style.display = 'none';
+    document.getElementById('wizard-panel').style.display = 'none';
+    document.getElementById('evaluate-panel').style.display = 'flex';
+    // 右パネル
+    document.getElementById('preview-content').style.display = 'none';
+    document.getElementById('preview-loading').style.display = 'none';
+    var pe2 = document.getElementById('preview-empty');
+    pe2.style.display = 'flex';
+    document.getElementById('write-empty-state').style.display = 'none';
+    document.getElementById('eval-empty-state').style.display = 'flex';
+    document.getElementById('eval-result-panel').style.display = 'none';
+  }
+}
+
+// ── copyToClipboard ───────────────────────────────────────────────
+function copyToClipboard(text) {
+  var toast = document.getElementById('copy-toast');
+  function showToast() {
+    toast.classList.add('show');
+    setTimeout(function() { toast.classList.remove('show'); }, 2000);
+  }
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(showToast).catch(function() {
+      var ta = document.createElement('textarea');
+      ta.value = text; document.body.appendChild(ta); ta.select();
+      document.execCommand('copy'); document.body.removeChild(ta);
+      showToast();
+    });
+  } else {
+    var ta = document.createElement('textarea');
+    ta.value = text; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    showToast();
+  }
+}
+
+// ── フェーズジャンプ ──────────────────────────────────────────────
+function jumpPhase(phase) {
+  state.currentPhase = phase;
+  updatePhaseBar();
+  var sectionMap = {e:'phase-e-section', p:'phase-p-section', i:'phase-i-section', c:'phase-c-section'};
+  var el = document.getElementById(sectionMap[phase]);
+  if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+// ── プレビューチップ更新 ──────────────────────────────────────────
+function updatePreviewChips() {
+  var eComplete = state.funnel && state.role;
+  var pComplete = state.depth && state.keyword;
+  var iComplete = !!state.fw;
+  document.getElementById('chip-e').className = 'preview-phase-chip' + (eComplete ? ' filled' : '');
+  document.getElementById('chip-p').className = 'preview-phase-chip' + (pComplete ? ' filled' : '');
+  document.getElementById('chip-i').className = 'preview-phase-chip' + (iComplete ? ' filled' : '');
+  document.getElementById('chip-c').className = 'preview-phase-chip filled';
+}
+
+// ── switchEvalInput ───────────────────────────────────────────────
+function switchEvalInput(mode) {
+  var isUrl = mode === 'url';
+  document.getElementById('eval-input-url').style.display = isUrl ? 'flex' : 'none';
+  document.getElementById('eval-input-html').style.display = isUrl ? 'none' : 'flex';
+  document.getElementById('eval-tab-url').style.color = isUrl ? 'var(--blue)' : 'var(--text2)';
+  document.getElementById('eval-tab-url').style.borderBottomColor = isUrl ? 'var(--blue)' : 'transparent';
+  document.getElementById('eval-tab-html').style.color = isUrl ? 'var(--text2)' : 'var(--blue)';
+  document.getElementById('eval-tab-html').style.borderBottomColor = isUrl ? 'transparent' : 'var(--blue)';
+}
+
+// ── handleEvalCharCount ───────────────────────────────────────────
+function handleEvalCharCount() {
+  var ta = document.getElementById('eval-html-input');
+  var count = ta.value.length;
+  document.getElementById('eval-char-count').textContent = count.toLocaleString() + '文字';
+  document.getElementById('eval-html-hint').style.display = count > 100 ? 'inline' : 'none';
+}
+
+// ── analyzeHTML ───────────────────────────────────────────────────
+function analyzeHTML(htmlStr) {
+  var parser = new DOMParser();
+  var doc = parser.parseFromString(htmlStr, 'text/html');
+  var scores = [];
+  var reasons = [];
+
+  // 1. 要点構造化（TL;DR）
+  var hasSummary = doc.querySelector('summary, .tl-dr, .tldr, [id*="summary"], [class*="summary"]');
+  var firstP = doc.querySelector('p');
+  var firstPLen = firstP ? firstP.textContent.length : 0;
+  var s1 = hasSummary ? 3 : (firstPLen < 80 ? 2 : 1);
+  scores.push(s1);
+  reasons.push(hasSummary ? '要約ブロックが検出されました。AIに引用されやすい構造です。'
+    : firstPLen < 80 ? '冒頭段落は短めですが、明示的なTL;DRブロックがありません。'
+    : '冒頭に要約ブロック（TL;DR）がありません。AI検索では要点の構造化が重要です。');
+
+  // 2. 箇条書き・定義・分類
+  var listCount = doc.querySelectorAll('ul, ol, dl').length;
+  var s2 = listCount >= 3 ? 3 : listCount >= 1 ? 2 : 0;
+  scores.push(s2);
+  reasons.push('リスト要素（ul/ol/dl）が ' + listCount + ' 個検出されました。'
+    + (s2 === 3 ? 'AIO向けの構造化が十分です。' : s2 === 2 ? '追加の箇条書き活用を検討してください。' : '箇条書き・定義リストがありません。'));
+
+  // 3. 構造化データ（JSON-LD）
+  var jsonLd = doc.querySelector('script[type="application/ld+json"]');
+  var s3 = jsonLd ? 3 : 0;
+  scores.push(s3);
+  reasons.push(jsonLd ? 'JSON-LDによる構造化データが実装されています。' : 'Schema.org / JSON-LDが未実装です。記事（Article）型の構造化データを追加することを推奨します。');
+
+  // 4. AIO再現性（独自性）
+  var blockquotes = doc.querySelectorAll('blockquote').length;
+  var figures = doc.querySelectorAll('figure').length;
+  var bodyText = doc.body ? doc.body.textContent : '';
+  var uniqueKeywords = (bodyText.match(/調査|独自|事例|データ|実証|当社|弊社/g) || []).length;
+  var s4 = (blockquotes + figures + uniqueKeywords) >= 5 ? 3 : (blockquotes + figures + uniqueKeywords) >= 2 ? 2 : 1;
+  scores.push(s4);
+  reasons.push('独自性シグナル（引用・図・調査語）が ' + (blockquotes + figures + uniqueKeywords) + ' 個検出されました。'
+    + (s4 === 3 ? '一次情報の活用が十分です。' : '独自調査・事例・データの引用をさらに追加することでAIOでの再現性が向上します。'));
+
+  // 5. タイトル・ディスクリプション
+  var titleEl = doc.querySelector('title');
+  var titleLen = titleEl ? titleEl.textContent.trim().length : 0;
+  var metaDesc = doc.querySelector('meta[name="description"]');
+  var descLen = metaDesc ? (metaDesc.getAttribute('content') || '').length : 0;
+  var titleOk = titleLen >= 30 && titleLen <= 65;
+  var descOk = descLen >= 70 && descLen <= 130;
+  var s5 = titleOk && descOk ? 3 : (titleEl && metaDesc) ? 2 : titleEl ? 1 : 0;
+  scores.push(s5);
+  reasons.push('タイトル: ' + (titleLen > 0 ? titleLen + '文字' : '未検出')
+    + '（推奨: 30-65字）、ディスクリプション: ' + (descLen > 0 ? descLen + '文字' : '未検出')
+    + '（推奨: 70-130字）。' + (s5 === 3 ? '最適化されています。' : '文字数を見直してください。'));
+
+  // 6. 内部リンク
+  var allLinks = doc.querySelectorAll('a[href]');
+  var internalLinks = Array.from(allLinks).filter(function(a) {
+    var href = a.getAttribute('href') || '';
+    return href.startsWith('/') || href.startsWith('./') || href.startsWith('../');
+  }).length;
+  var s6 = internalLinks >= 5 ? 3 : internalLinks >= 2 ? 2 : internalLinks >= 1 ? 1 : 0;
+  scores.push(s6);
+  reasons.push('内部リンクが ' + internalLinks + ' 個検出されました。'
+    + (s6 === 3 ? '文脈に沿った内部リンク構造が構築されています。' : '関連記事へのリンクを追加してサイロ化を防いでください。'));
+
+  // 7. モバイル対応・UX
+  var viewport = doc.querySelector('meta[name="viewport"]');
+  var hasResponsive = htmlStr.indexOf('col-') !== -1 || htmlStr.indexOf('flex') !== -1 || htmlStr.indexOf('grid') !== -1;
+  var s7 = viewport && hasResponsive ? 3 : viewport ? 2 : 0;
+  scores.push(s7);
+  reasons.push(viewport ? 'viewportメタタグあり。' + (hasResponsive ? 'レスポンシブ設計が確認されました。' : 'レスポンシブCSSの追加を確認してください。') : 'viewportメタタグがありません。モバイル対応はSEOの基礎要件です。');
+
+  // 8. EEAT（コンテンツ信頼性）
+  var authorEl = doc.querySelector('[class*="author"], [rel="author"], address');
+  var dateEl = doc.querySelector('time[datetime], [class*="date"], [class*="published"]');
+  var citeEl = doc.querySelector('cite');
+  var eeScore = (authorEl ? 1 : 0) + (dateEl ? 1 : 0) + (citeEl ? 1 : 0);
+  var s8 = eeScore === 3 ? 3 : eeScore === 2 ? 2 : eeScore === 1 ? 1 : 0;
+  scores.push(s8);
+  reasons.push('著者情報: ' + (authorEl ? '✓' : '✗') + '、投稿日: ' + (dateEl ? '✓' : '✗') + '、引用元: ' + (citeEl ? '✓' : '✗') + '。'
+    + (s8 === 3 ? 'EEAT信頼シグナルが充実しています。' : '著者・日付・引用元の明示がEEATスコアに直結します。'));
+
+  // 9. canonicalタグ
+  var canonical = doc.querySelector('link[rel="canonical"]');
+  var canonicalHref = canonical ? canonical.getAttribute('href') : '';
+  var s9 = (canonical && canonicalHref && canonicalHref.startsWith('http')) ? 3 : canonical ? 2 : 0;
+  scores.push(s9);
+  reasons.push(canonical ? 'canonicalタグ検出: ' + (canonicalHref || '（href未設定）') + (s9 === 3 ? '。正しく設定されています。' : '。絶対URLでの指定を推奨します。') : 'canonicalタグがありません。重複コンテンツリスクがあります。');
+
+  // 10. Promptability
+  var headings = Array.from(doc.querySelectorAll('h2, h3'));
+  var questionHeadings = headings.filter(function(h) {
+    return /[？?]$|か[？?。]?$|とは[？?。]?$/.test(h.textContent.trim());
+  }).length;
+  var s10 = questionHeadings >= 3 ? 3 : questionHeadings >= 1 ? 2 : headings.length >= 3 ? 1 : 0;
+  scores.push(s10);
+  reasons.push('疑問形の見出しが ' + questionHeadings + ' 個（全見出し ' + headings.length + ' 個中）検出されました。'
+    + (s10 >= 2 ? 'AI検索のクエリと合致しやすい構造です。' : '「〜とは？」「なぜ〜か」形式の見出しを増やすとAI引用率が向上します。'));
+
+  // 11. 抽象⇔具体のバランス
+  var figureCount = doc.querySelectorAll('figure, img[alt], table').length;
+  var numericPattern = (bodyText.match(/\d+[%倍万億千百件社名]+/g) || []).length;
+  var s11 = (figureCount >= 3 && numericPattern >= 5) ? 3 : (figureCount >= 1 || numericPattern >= 2) ? 2 : 1;
+  scores.push(s11);
+  reasons.push('図表: ' + figureCount + ' 個、数値データ: ' + numericPattern + ' 個検出。'
+    + (s11 === 3 ? '抽象概念と具体データのバランスが取れています。' : '数値・事例・図表で具体性を補強してください。'));
+
+  // 12. 一問一答性・段落自立性
+  var paragraphs = Array.from(doc.querySelectorAll('p'));
+  var validParas = paragraphs.filter(function(p) { return p.textContent.trim().length > 30; });
+  var avgLen = validParas.length > 0 ? validParas.reduce(function(sum, p) { return sum + p.textContent.length; }, 0) / validParas.length : 0;
+  var s12 = (avgLen >= 80 && avgLen <= 350) ? 3 : (avgLen > 0 && avgLen < 500) ? 2 : 1;
+  scores.push(s12);
+  reasons.push('段落の平均文字数: ' + Math.round(avgLen) + '文字（推奨: 80-350字）。'
+    + (s12 === 3 ? 'パラグラフライティングの原則に沿った構造です。' : avgLen > 350 ? '段落が長すぎます。1段落1主張に絞ってください。' : '段落が短すぎる、または内容が薄い可能性があります。'));
+
+  // 13. リッチメディア最適化
+  var imgs = doc.querySelectorAll('img');
+  var imgsWithAlt = Array.from(imgs).filter(function(img) { return img.getAttribute('alt') && img.getAttribute('alt').length > 3; }).length;
+  var hasVideo = doc.querySelector('video, iframe[src*="youtube"], iframe[src*="vimeo"]');
+  var s13 = (imgsWithAlt >= 2 && hasVideo) ? 3 : (imgsWithAlt >= 1) ? 2 : imgs.length > 0 ? 1 : 0;
+  scores.push(s13);
+  reasons.push('画像: ' + imgs.length + '枚（alt属性あり: ' + imgsWithAlt + '枚）、動画: ' + (hasVideo ? '検出' : '未検出') + '。'
+    + (s13 === 3 ? 'リッチメディアが最適に活用されています。' : 'alt属性の充実と動画コンテンツの追加を検討してください。'));
+
+  return { scores: scores, reasons: reasons };
+}
+
+// ── generateSampleScores ──────────────────────────────────────────
+function generateSampleScores() {
+  return {
+    scores: [2, 3, 1, 2, 2, 2, 3, 1, 3, 2, 2, 1, 2],
+    reasons: [
+      '冒頭に概要段落はありますが、明示的なTL;DRブロックの追加でAI引用率が向上します。',
+      '箇条書きが複数使用されており、情報の視認性が高い構成です。',
+      'JSON-LDによる構造化データが未実装です。Article型の実装を推奨します。',
+      '独自性のあるデータ・事例はありますが、一次調査データの明示でさらに差別化できます。',
+      'タイトルとディスクリプションは設定されていますが、文字数の最適化が必要です。',
+      '内部リンクは存在しますが、文脈に沿ったアンカーテキストの見直しを推奨します。',
+      'viewportとレスポンシブデザインが正しく実装されています。',
+      '著者情報の明示が不十分です。EEAT観点で著者プロフィールリンクを追加してください。',
+      'canonicalタグが正しく設定されています。',
+      '疑問形の見出しがありますが、さらにAIクエリと一致する見出し構造にできます。',
+      'グラフや表を活用した具体的なデータが含まれていますが、さらに増やせます。',
+      '段落が長くなりがちです。1段落1主張の原則でパラグラフを分割してください。',
+      '画像のalt属性が不完全です。画像説明を充実させてください。'
+    ]
+  };
+}
+
+// ── evaluateContent ───────────────────────────────────────────────
+function evaluateContent() {
+  var activeTab = document.getElementById('eval-input-url').style.display !== 'none' ? 'url' : 'html';
+  var result;
+  if (activeTab === 'html') {
+    var htmlSource = document.getElementById('eval-html-input').value.trim();
+    if (!htmlSource) {
+      alert('HTMLソースを貼り付けてください。');
+      return;
+    }
+    result = analyzeHTML(htmlSource);
+  } else {
+    var url = document.getElementById('eval-url-input').value.trim();
+    if (!url) {
+      alert('URLを入力してください。');
+      return;
+    }
+    result = generateSampleScores();
+  }
+
+  var pe = document.getElementById('preview-empty');
+  if (pe) pe.style.display = 'none';
+
+  var loadingEl = document.getElementById('preview-loading');
+  if (loadingEl) loadingEl.style.display = 'flex';
+  document.getElementById('eval-result-panel').style.display = 'none';
+
+  setTimeout(function() {
+    if (loadingEl) loadingEl.style.display = 'none';
+    renderEvalResults(result);
+  }, 1200);
+}
+
+// ── renderEvalResults ─────────────────────────────────────────────
+function renderEvalResults(result) {
+  var scores = result.scores;
+  var reasons = result.reasons;
+  var total = scores.reduce(function(a, b) { return a + b; }, 0);
+  var verdict = calcVerdict(total);
+
+  var categories = [
+    { name: 'AIO観点', color: 'var(--purple)', items: [0,1,2,3],
+      labels: ['要点構造化（TL;DR）','箇条書き・定義・分類の活用','構造化データ（JSON-LD）','AIO上の再現性（独自性）'] },
+    { name: 'SEO観点', color: 'var(--blue)', items: [4,5,6,7],
+      labels: ['タイトル・ディスクリプションの最適化','内部リンク構造と文脈','モバイル対応・UX・表示速度','コンテンツの信頼性（E-E-A-T）'] },
+    { name: 'SEO技術観点', color: 'var(--amber)', items: [8],
+      labels: ['canonicalタグの設置と正確性'] },
+    { name: 'GEO観点', color: 'var(--green)', items: [9,10,11,12],
+      labels: ['Promptability（プロンプト性）','抽象⇔具体のバランス','一問一答性・パラグラフ自立性','リッチメディアの最適化'] }
+  ];
+
+  function stars(score) {
+    var filled = '★'.repeat(score);
+    var empty = '☆'.repeat(3 - score);
+    return '<span style="color:var(--amber);font-size:13px;">' + filled + '</span>'
+         + '<span style="color:var(--text3);font-size:13px;">' + empty + '</span>';
+  }
+
+  var pct = Math.round((total / 39) * 100);
+  var barColor = pct >= 77 ? 'var(--green)' : pct >= 51 ? 'var(--amber)' : 'var(--red)';
+
+  var html = '';
+
+  // 総合スコア
+  html += '<div style="margin-bottom:24px;">';
+  html += '<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;">';
+  html += '<div style="font-size:13px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:0.5px;">総合スコア</div>';
+  html += '<div style="font-size:28px;font-weight:800;color:var(--text);">' + total + '<span style="font-size:14px;color:var(--text2);font-weight:400;"> / 39</span></div>';
+  html += '</div>';
+  html += '<div style="height:8px;background:var(--bg4);border-radius:4px;overflow:hidden;margin-bottom:10px;">';
+  html += '<div style="height:100%;width:' + pct + '%;background:' + barColor + ';border-radius:4px;transition:width 0.8s ease;"></div>';
+  html += '</div>';
+  html += '<div style="padding:10px 14px;border-radius:6px;background:var(--bg4);border:1px solid var(--border2);font-size:15px;font-weight:700;color:var(--text);">' + verdict.icon + ' ' + verdict.text + '</div>';
+  html += '</div>';
+
+  // カテゴリ別
+  categories.forEach(function(cat) {
+    var catTotal = cat.items.reduce(function(sum, i) { return sum + scores[i]; }, 0);
+    var catMax = cat.items.length * 3;
+    html += '<div style="margin-bottom:20px;">';
+    html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">';
+    html += '<div style="font-size:12px;font-weight:700;color:' + cat.color + ';text-transform:uppercase;letter-spacing:0.5px;">' + cat.name + '</div>';
+    html += '<div style="font-size:12px;color:var(--text2);">' + catTotal + ' / ' + catMax + '点</div>';
+    html += '</div>';
+    cat.items.forEach(function(idx, j) {
+      var itemNum = idx + 1;
+      html += '<div style="padding:12px;background:var(--bg4);border:1px solid var(--border);border-radius:6px;margin-bottom:6px;">';
+      html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">';
+      html += '<div style="font-size:12px;font-weight:600;color:var(--text);">' + itemNum + '. ' + cat.labels[j] + '</div>';
+      html += '<div style="display:flex;align-items:center;gap:6px;">';
+      html += stars(scores[idx]);
+      html += '<span style="font-size:11px;font-weight:700;color:var(--text2);min-width:28px;text-align:right;">' + scores[idx] + '/3</span>';
+      html += '</div></div>';
+      html += '<div style="font-size:11px;color:var(--text2);line-height:1.6;">' + reasons[idx] + '</div>';
+      html += '</div>';
+    });
+    html += '</div>';
+  });
+
+  // WRITEモードへの誘導
+  html += '<div style="margin-top:8px;padding-top:16px;border-top:1px solid var(--border);">';
+  html += '<button onclick="switchToWrite()" style="width:100%;height:40px;border:1px solid var(--blue);border-radius:8px;background:transparent;color:var(--blue);font-size:13px;font-weight:600;cursor:pointer;" onmouseover="this.style.background=\'rgba(74,158,255,0.1)\'" onmouseout="this.style.background=\'transparent\'">';
+  html += '✍️ WRITEモードでリライトする';
+  html += '</button></div>';
+
+  var panel = document.getElementById('eval-result-panel');
+  panel.innerHTML = html;
+  panel.style.display = 'block';
+  lastEvalResult = result;
+}
+
+// ── calcVerdict ───────────────────────────────────────────────────
+function calcVerdict(total) {
+  if (total >= 30) return { icon: '✅', text: '今すぐ公開可' };
+  if (total >= 20) return { icon: '✏️', text: '修正してから公開' };
+  return { icon: '❌', text: '公開推奨せず' };
+}
+
+// ── switchToWrite ─────────────────────────────────────────────────
+function switchToWrite() {
+  var pc = document.getElementById('preview-content');
+  var hasExistingBrief = pc && pc.innerHTML.trim() !== '';
+
+  // WRITEタブへ（wizard・ブリーフの状態は保持）
+  switchTab('write');
+
+  if (hasExistingBrief) {
+    pc.style.display = 'block';
+    document.getElementById('preview-empty').style.display = 'none';
+    if (lastEvalResult) {
+      injectRewriteHint(pc, lastEvalResult);
+    }
+  }
+}
+
+// Option B: EVALUATEの低スコア項目をブリーフ上部にインジェクト
+function injectRewriteHint(container, result) {
+  var old = document.getElementById('rewrite-hint-bar');
+  if (old) old.remove();
+
+  var labels = [
+    '要点構造化（TL;DR）','箇条書き・定義・分類','構造化データ（JSON-LD）','AIO再現性（独自性）',
+    'タイトル・ディスクリプション','内部リンク構造','モバイル対応・UX','コンテンツ信頼性（EEAT）',
+    'canonicalタグ',
+    'Promptability','抽象⇔具体のバランス','一問一答性・段落自立性','リッチメディア最適化'
+  ];
+  var catColors = [
+    'var(--purple)','var(--purple)','var(--purple)','var(--purple)',
+    'var(--blue)','var(--blue)','var(--blue)','var(--blue)',
+    'var(--amber)',
+    'var(--green)','var(--green)','var(--green)','var(--green)'
+  ];
+
+  var lowItems = [];
+  result.scores.forEach(function(sc, i) {
+    if (sc <= 1 && lowItems.length < 4) {
+      lowItems.push({ label: labels[i], score: sc, reason: result.reasons[i], color: catColors[i] });
+    }
+  });
+  if (lowItems.length === 0) return;
+
+  var total = result.scores.reduce(function(a, b) { return a + b; }, 0);
+  var pct = Math.round((total / 39) * 100);
+
+  var itemsHtml = lowItems.map(function(it) {
+    return '<div style="display:flex;gap:8px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--border);">'
+      + '<div style="min-width:4px;background:' + it.color + ';border-radius:2px;align-self:stretch;"></div>'
+      + '<div><div style="font-size:11px;font-weight:700;color:var(--text);margin-bottom:3px;">'
+      + it.label + ' <span style="color:var(--red);">' + it.score + '/3点</span></div>'
+      + '<div style="font-size:11px;color:var(--text2);line-height:1.5;">' + it.reason + '</div>'
+      + '</div></div>';
+  }).join('');
+
+  var total_str = pct + '%  ' + total + '/39点';
+  var bar = document.createElement('div');
+  bar.id = 'rewrite-hint-bar';
+  bar.style.cssText = 'margin-bottom:16px;padding:14px;background:var(--bg4);border:1px solid var(--amber);border-radius:8px;';
+  bar.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">'
+    + '<div style="font-size:11px;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:0.5px;">EVALUATE 改善ヒント（' + total_str + '）</div>'
+    + '<button id="hint-close-btn" style="border:none;background:transparent;color:var(--text3);cursor:pointer;font-size:13px;padding:0;">x</button>'
+    + '</div>'
+    + itemsHtml
+    + '<div style="margin-top:10px;font-size:11px;color:var(--text3);">上記の低スコア項目を意識してブリーフを修正・再生成してください。</div>';
+
+  container.insertBefore(bar, container.firstChild);
+
+  // ✕ボタンにイベントリスナーで閉じる（onclickのエスケープ問題を回避）
+  document.getElementById('hint-close-btn').addEventListener('click', function() {
+    bar.remove();
+  });
+}
+</script>
+</body>
+</html>
