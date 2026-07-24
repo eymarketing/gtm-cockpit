@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SEO Blog Writer v0.2 | GTM COCKPIT</title>
+<title>SEO Blog Writer v0.6 | GTM COCKPIT</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
@@ -33,6 +33,9 @@ body{background:var(--bg);color:var(--text);font-family:'Inter','Noto Sans JP',s
 .hud-sep{width:1px;height:20px;background:var(--border2);}
 .hud-title{font-size:13px;font-weight:600;color:var(--text);}
 .hud-badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px;background:rgba(74,158,255,0.15);color:var(--blue);border:1px solid rgba(74,158,255,0.3);}
+/* ── 記事ドラフト ── */
+#article-draft-panel h1,#article-draft-panel h2,#article-draft-panel h3{line-height:1.5;}
+#article-draft-panel p{margin-bottom:0;}
 
 /* ── メインレイアウト ── */
 .app-layout{display:flex;flex:1;overflow:hidden;}
@@ -244,7 +247,7 @@ textarea.text-input{resize:vertical;min-height:80px;}
   <span class="hud-logo">GTM COCKPIT</span>
   <div class="hud-sep"></div>
   <span class="hud-title">SEO Blog Writer</span>
-  <span class="hud-badge">v0.2</span>
+  <span class="hud-badge">v0.6</span>
 </div>
 
 <!-- メインレイアウト -->
@@ -338,33 +341,33 @@ textarea.text-input{resize:vertical;min-height:80px;}
       <div class="epic-phases">
         <div class="epic-phase">
           <div class="epic-node active" id="node-e" onclick="jumpPhase('e')">
-            <div class="epic-node-circle" id="circle-e">E</div>
-            <div class="epic-node-label">Empathy</div>
+            <div class="epic-node-circle" id="circle-e">1</div>
+            <div class="epic-node-label">STEP 1</div>
             <div class="epic-node-sub">誰に届けるか</div>
           </div>
         </div>
         <div class="epic-connector" id="conn-ep"></div>
         <div class="epic-phase">
           <div class="epic-node" id="node-p" onclick="jumpPhase('p')">
-            <div class="epic-node-circle" id="circle-p">P</div>
-            <div class="epic-node-label">Problem</div>
+            <div class="epic-node-circle" id="circle-p">2</div>
+            <div class="epic-node-label">STEP 2</div>
             <div class="epic-node-sub">何を伝えるか</div>
           </div>
         </div>
         <div class="epic-connector" id="conn-pi"></div>
         <div class="epic-phase">
           <div class="epic-node" id="node-i" onclick="jumpPhase('i')">
-            <div class="epic-node-circle" id="circle-i">I</div>
-            <div class="epic-node-label">Insight</div>
-            <div class="epic-node-sub">どう伝えるか</div>
+            <div class="epic-node-circle" id="circle-i">3</div>
+            <div class="epic-node-label">STEP 3</div>
+            <div class="epic-node-sub">どう設計するか</div>
           </div>
         </div>
         <div class="epic-connector" id="conn-ic"></div>
         <div class="epic-phase">
           <div class="epic-node" id="node-c" onclick="jumpPhase('c')">
-            <div class="epic-node-circle" id="circle-c">C</div>
-            <div class="epic-node-label">CTA</div>
-            <div class="epic-node-sub">行動喚起</div>
+            <div class="epic-node-circle" id="circle-c">4</div>
+            <div class="epic-node-label">STEP 4</div>
+            <div class="epic-node-sub">どんな行動を促すか</div>
           </div>
         </div>
       </div>
@@ -379,7 +382,7 @@ textarea.text-input{resize:vertical;min-height:80px;}
         <!-- Phase 1: Empathy -->
         <div class="wizard-section" id="phase-e-section">
           <div class="section-header">
-            <span class="section-phase-badge phase-e">EMPATHY</span>
+            <span class="section-phase-badge phase-e">STEP 1</span>
             <span class="section-title">誰に届けるか</span>
           </div>
 
@@ -462,7 +465,7 @@ textarea.text-input{resize:vertical;min-height:80px;}
         <!-- Phase 2: Problem -->
         <div class="wizard-section" id="phase-p-section">
           <div class="section-header" style="margin-top:16px;">
-            <span class="section-phase-badge phase-p">PROBLEM</span>
+            <span class="section-phase-badge phase-p">STEP 2</span>
             <span class="section-title">何を伝えるか</span>
           </div>
 
@@ -488,10 +491,27 @@ textarea.text-input{resize:vertical;min-height:80px;}
             </div>
           </div>
 
-          <!-- 項目④ ターゲットキーワード -->
+          <!-- 項目④ この記事で伝えたいこと -->
           <div class="form-item">
             <div class="form-label">
-              ④ ターゲットキーワード
+              ④ この記事で伝えたいこと（主張・気づき）
+              <span class="required-mark">*</span>
+            </div>
+            <textarea
+              class="text-input"
+              id="claim-input"
+              placeholder="例：製造業DXの内製化が進まない本当の理由は、技術不足ではなく意思決定設計にある"
+              rows="3"
+              maxlength="200"
+              oninput="handleCharCount(this,200,document.getElementById('claim-count'));state.claim=this.value.trim();checkGenerateButtonState();updatePreviewChips();"
+            ></textarea>
+            <div class="char-counter" id="claim-count">0/200</div>
+          </div>
+
+          <!-- 項目⑤ ターゲットキーワード -->
+          <div class="form-item">
+            <div class="form-label">
+              ⑤ ターゲットキーワード
               <span class="required-mark">*</span>
             </div>
             <input
@@ -512,14 +532,14 @@ textarea.text-input{resize:vertical;min-height:80px;}
         <!-- Phase 3: Insight -->
         <div class="wizard-section" id="phase-i-section">
           <div class="section-header" style="margin-top:16px;">
-            <span class="section-phase-badge phase-i">INSIGHT</span>
-            <span class="section-title">どう伝えるか</span>
+            <span class="section-phase-badge phase-i">STEP 3</span>
+            <span class="section-title">どう設計するか</span>
           </div>
 
-          <!-- 項目⑤ ライティングFW -->
+          <!-- 項目⑥ ライティングFW -->
           <div class="form-item">
             <div class="form-label">
-              ⑤ ライティングフレームワーク
+              ⑥ ライティングフレームワーク
               <span class="required-mark">*</span>
             </div>
             <div class="card-group" id="fw-card-group">
@@ -541,10 +561,10 @@ textarea.text-input{resize:vertical;min-height:80px;}
             </div>
           </div>
 
-          <!-- 項目⑥ 一次情報インプット -->
+          <!-- 項目⑦ 一次情報インプット -->
           <div class="form-item">
             <div class="form-label">
-              ⑥ 一次情報インプット
+              ⑦ 一次情報インプット
               <span class="optional-badge">任意</span>
             </div>
             <textarea
@@ -556,6 +576,9 @@ textarea.text-input{resize:vertical;min-height:80px;}
               oninput="handleCharCount(this,600,document.getElementById('pi-count'));updatePdfBothInfo();"
             ></textarea>
             <div class="char-counter" id="pi-count">0/600</div>
+            <div style="font-size:11px;color:var(--text3);margin-top:6px;line-height:1.6;">
+              当社データ・調査結果・事例があると、競合記事との差別化ポイントが具体的になります。
+            </div>
 
             <!-- PDFドロップゾーン -->
             <div class="pdf-drop" id="pdf-drop" onclick="document.getElementById('pdf-input').click()" ondragover="event.preventDefault();this.style.borderColor='var(--blue)'" ondragleave="this.style.borderColor=''" ondrop="handlePDFDrop(event)">
@@ -577,38 +600,31 @@ textarea.text-input{resize:vertical;min-height:80px;}
         <!-- Phase 4: CTA -->
         <div class="wizard-section" id="phase-c-section">
           <div class="section-header" style="margin-top:16px;">
-            <span class="section-phase-badge phase-c">CTA</span>
+            <span class="section-phase-badge phase-c">STEP 4</span>
             <span class="section-title">読者に促す行動を決める</span>
           </div>
 
-          <!-- 項目⑦ STI紐付け -->
+          <!-- 項目⑧ STI紐付け -->
           <div class="form-item">
             <div class="form-label">
-              ⑦ STI紐付け
+              ⑧ CTAで誘導するサービス・ソリューション
               <span class="optional-badge">任意</span>
             </div>
-            <div class="btn-group">
-              <div class="btn-option" onclick="selectOption('sti','Natic',this)">
-                <div>Natic</div>
-                <div class="btn-option-sub">サービスへ誘導</div>
-              </div>
-              <div class="btn-option" onclick="selectOption('sti','Azure',this)">
-                <div>Azure</div>
-                <div class="btn-option-sub">モダナイゼーション文脈</div>
-              </div>
-              <div class="btn-option selected" id="sti-none" onclick="selectOption('sti','なし',this)">
-                <div>なし</div>
-                <div class="btn-option-sub">EEAT重視</div>
-              </div>
-            </div>
+            <textarea
+              class="text-input"
+              id="sti-input"
+              placeholder="例：Naticというデータ基盤サービス&#10;例：Azure移行支援ソリューション&#10;空欄の場合はEEAT重視（誘導なし）"
+              rows="3"
+              oninput="state.sti = this.value.trim();"
+            ></textarea>
           </div>
         </div>
 
         <!-- 生成ボタン -->
         <div class="generate-area">
-          <div class="generate-hint" id="generate-hint">残り4項目の入力が必要です</div>
+          <div class="generate-hint" id="generate-hint">残り5項目の入力が必要です</div>
           <button class="generate-btn disabled" id="generate-btn" onclick="generateBrief()">
-            ✨ コンテンツブリーフを生成する
+            ✨ 構成案を生成する
           </button>
         </div>
 
@@ -745,13 +761,13 @@ textarea.text-input{resize:vertical;min-height:80px;}
           <!-- WRITE用 Empty State -->
           <div id="write-empty-state" style="display:flex; flex-direction:column; align-items:center; gap:16px; text-align:center;">
             <div class="preview-empty-icon">📝</div>
-            <div class="preview-empty-main">コンテンツブリーフがここに生成されます</div>
-            <div class="preview-empty-sub">左のウィザードを入力すると</div>
+            <div class="preview-empty-main">左の入力内容をもとに、構成案と記事ドラフトをここに生成します</div>
+            <div class="preview-empty-sub">まず構成案を生成 → その後、記事ドラフト本文へ進めます</div>
             <div class="preview-phase-chips">
-              <div class="preview-phase-chip" id="chip-e">[Empathy]</div>
-              <div class="preview-phase-chip" id="chip-p">[Problem]</div>
-              <div class="preview-phase-chip" id="chip-i">[Insight]</div>
-              <div class="preview-phase-chip" id="chip-c">[CTA]</div>
+              <div class="preview-phase-chip" id="chip-e">[STEP 1]</div>
+              <div class="preview-phase-chip" id="chip-p">[STEP 2]</div>
+              <div class="preview-phase-chip" id="chip-i">[STEP 3]</div>
+              <div class="preview-phase-chip" id="chip-c">[STEP 4]</div>
             </div>
             <div class="preview-hint">← 入力するごとにリアルタイム更新</div>
           </div>
@@ -796,6 +812,35 @@ textarea.text-input{resize:vertical;min-height:80px;}
         <!-- 生成後コンテンツ（WRITE） -->
         <div class="preview-content" id="preview-content"></div>
 
+        <!-- 本文生成ボタンエリア（構成案生成後に表示） -->
+        <div id="draft-generate-area" style="display:none; padding:0 24px 16px;">
+          <button onclick="generateArticleDraft()"
+            style="width:100%;height:44px;border-radius:8px;border:1px solid var(--blue);
+                   background:rgba(74,158,255,0.08);color:var(--blue);font-size:14px;
+                   font-weight:600;cursor:pointer;transition:background .15s;display:flex;
+                   align-items:center;justify-content:center;gap:6px;"
+            onmouseover="this.style.background='rgba(74,158,255,0.15)'"
+            onmouseout="this.style.background='rgba(74,158,255,0.08)'">
+            📝 この構成で記事ドラフト本文を生成する
+          </button>
+        </div>
+
+        <!-- 記事ドラフトローディング -->
+        <div id="draft-loading" style="display:none; padding:24px;">
+          <div class="loading-label">記事ドラフトを生成中...</div>
+          <div class="skeleton skeleton-h" style="width:70%;margin-bottom:16px;"></div>
+          <div class="skeleton skeleton-text" style="width:100%;margin-bottom:6px;"></div>
+          <div class="skeleton skeleton-text" style="width:92%;margin-bottom:6px;"></div>
+          <div class="skeleton skeleton-text" style="width:88%;margin-bottom:24px;"></div>
+          <div class="skeleton skeleton-h" style="width:50%;margin-bottom:12px;"></div>
+          <div class="skeleton skeleton-text" style="width:100%;margin-bottom:6px;"></div>
+          <div class="skeleton skeleton-text" style="width:85%;margin-bottom:6px;"></div>
+          <div class="skeleton skeleton-text" style="width:90%;"></div>
+        </div>
+
+        <!-- 記事ドラフト本文エリア -->
+        <div id="article-draft-panel" style="display:none; padding:24px; border-top:1px solid var(--border);"></div>
+
         <!-- 評価結果エリア（EVALUATE） -->
         <div id="eval-result-panel" style="display:none; height:100%; overflow-y:auto; padding:24px;"></div>
 
@@ -817,11 +862,12 @@ const state = {
   role: null,
   mobilizer: null,
   depth: null,
+  claim: '',
   keyword: '',
   fw: null,
   primaryInfo: '',
   pdfFile: null,
-  sti: 'なし',
+  sti: '',
   currentPhase: 'e'
 };
 var lastEvalResult = null;
@@ -829,6 +875,12 @@ var lastEvalResult = null;
 // ── 初期化 ────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', function() {
   initPhaseBar();
+  document.getElementById('claim-input').addEventListener('input', function() {
+    state.claim = this.value.trim();
+    checkGenerateButtonState();
+    updatePhaseBar();
+    updatePreviewChips();
+  });
   document.getElementById('keyword-input').addEventListener('input', function() {
     state.keyword = this.value.trim();
     checkGenerateButtonState();
@@ -838,7 +890,6 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('primary-info').addEventListener('input', function() {
     state.primaryInfo = this.value;
   });
-  state.sti = 'なし';
 });
 
 // ── initPhaseBar ─────────────────────────────────────────────────
@@ -862,8 +913,6 @@ function selectOption(groupName, value, element) {
       var b = el.querySelector('.rec-badge');
       if (b) b.remove();
     });
-  } else if (groupName === 'sti') {
-    document.querySelectorAll('[onclick^="selectOption(\'sti\'"]').forEach(el => el.classList.remove('selected'));
   }
 
   element.classList.add('selected');
@@ -890,7 +939,7 @@ function selectOption(groupName, value, element) {
 // ── updatePhaseBar ────────────────────────────────────────────────
 function updatePhaseBar() {
   const eComplete = state.funnel && state.role && (state.role !== 'Champion' || state.mobilizer);
-  const pComplete = state.depth && state.keyword;
+  const pComplete = state.depth && state.claim && state.keyword;
   const iComplete = state.fw !== null;
 
   setNodeState('e', eComplete ? 'done' : (state.currentPhase === 'e' ? 'active' : 'inactive'));
@@ -916,10 +965,11 @@ function checkGenerateButtonState() {
   const hint = document.getElementById('generate-hint');
 
   const checks = [
-    ['① ファネルステージ', !!state.funnel],
-    ['② ターゲット読者',   !!state.role],
-    ['③ コンテンツ深度',   !!state.depth],
-    ['④ キーワード',       !!state.keyword]
+    ['① ファネルステージ',   !!state.funnel],
+    ['② ターゲット読者',     !!state.role],
+    ['③ コンテンツ深度',     !!state.depth],
+    ['④ 記事の主張・気づき', !!state.claim],
+    ['⑤ キーワード',         !!state.keyword]
   ];
 
   const missing = checks.filter(function(c) { return !c[1]; });
@@ -1082,6 +1132,7 @@ function generateBrief() {
       role: state.role,
       mobilizer: state.mobilizer,
       depth: state.depth,
+      claim: state.claim,
       keyword: state.keyword,
       fw: state.fw || 'EPIC',
       primaryInfo: state.primaryInfo,
@@ -1090,6 +1141,10 @@ function generateBrief() {
     };
     renderBriefContent(data);
     document.getElementById('preview-content').style.display = 'block';
+    var draftBtn = document.getElementById('draft-generate-area');
+    if (draftBtn) draftBtn.style.display = 'block';
+    var draftPanel = document.getElementById('article-draft-panel');
+    if (draftPanel) draftPanel.style.display = 'none';
   }, 1800);
 }
 
@@ -1120,7 +1175,7 @@ function renderBriefContent(data) {
   var nums = ['①', '②', '③'];
 
   var roleLabel = data.mobilizer ? data.role + '（' + data.mobilizer + '）' : data.role;
-  var stiLabel = data.sti === 'なし' ? 'EEAT重視（誘導なし）' : data.sti + 'へ誘導';
+  var stiLabel = !data.sti ? 'EEAT重視（誘導なし）' : data.sti + 'へ誘導';
 
   var titlesHtml = titles.map(function(t, i) {
     var safe = t.replace(/'/g, '&#39;');
@@ -1146,6 +1201,7 @@ function renderBriefContent(data) {
     + '<div class="target-item"><div class="target-label">ファネル</div><div class="target-value">' + data.funnel + '</div></div>'
     + '<div class="target-item"><div class="target-label">読者</div><div class="target-value">' + roleLabel + '</div></div>'
     + '<div class="target-item"><div class="target-label">深度</div><div class="target-value">' + data.depth + '</div></div>'
+    + '<div class="target-item"><div class="target-label">主張・気づき</div><div class="target-value" style="max-width:200px;white-space:normal;font-size:11px;">' + (data.claim || '—') + '</div></div>'
     + '<div class="target-item"><div class="target-label">フレームワーク</div><div class="target-value">' + data.fw + '</div></div>'
     + '<div class="target-item"><div class="target-label">CTA</div><div class="target-value">' + stiLabel + '</div></div>'
     + '</div>'
@@ -1164,9 +1220,10 @@ function renderBriefContent(data) {
 
 function buildFWBlocks(data) {
   var kw = data.keyword || 'テーマ';
+  var claim = data.claim || kw + 'に関する本質的な気づき';
   var hasData = data.primaryInfo || data.pdfFile;
   var dataNote = hasData ? '（一次情報・PDFから引用）' : '（データ・調査結果を記述）';
-  var stiCta = data.sti === 'なし' ? '関連記事・ホワイトペーパーへの誘導' : data.sti + 'のサービスページへの自然な誘導';
+  var stiCta = !data.sti ? '関連記事・ホワイトペーパーへの誘導' : data.sti + 'のサービスページへの自然な誘導';
 
   function row(label, text) {
     return '<div class="fw-row"><div class="fw-row-label">' + label + '</div><div class="fw-row-text">' + text + '</div></div>';
@@ -1190,7 +1247,7 @@ function buildFWBlocks(data) {
       + row('支持文②', '（具体的な失敗パターン）')
       + row('結論文', '課題の根本原因を1文で明示'))
     + block('insight', 'var(--purple)', '【I：Insight — 洞察・気づき】',
-        row('トピック文', '成功した企業が共通して取ったのは、全面移行ではなくハイブリッドアプローチだ。')
+        row('トピック文', claim)
       + row('支持文①', dataNote)
       + row('支持文②', '（成功事例の共通パターン）')
       + row('結論文', '読者の認識転換を促す1文（コマーシャルインサイト）'))
@@ -1200,7 +1257,7 @@ function buildFWBlocks(data) {
       + row('結論文', stiCta));
   } else if (data.fw === 'PREP') {
     return block('point', 'var(--blue)', '【P：Point — 結論先出し】',
-        row('主張', kw + 'において、〇〇のアプローチが最も有効だ。')
+        row('主張', claim)
       + row('補足', 'この記事で3つの根拠と実例を示す'))
     + block('reason', 'var(--amber)', '【R：Reason — 根拠】',
         row('根拠①', dataNote)
@@ -1210,7 +1267,7 @@ function buildFWBlocks(data) {
         row('事例', '（実際の導入事例・ケーススタディ）')
       + row('数値', '（定量的成果・ROI）'))
     + block('point', 'var(--blue)', '【P：Point — 結論再提示＋CTA】',
-        row('再提示', '改めて、' + kw + 'で成果を出す鍵は〇〇だ。')
+        row('再提示', '改めて：' + claim)
       + row('CTA', stiCta));
   } else {
     return block('pastor-p', 'var(--red)', '【P：Problem — 問題提起】',
@@ -1223,7 +1280,7 @@ function buildFWBlocks(data) {
         row('事例', dataNote)
       + row('変化', '（Before → After のストーリー）'))
     + block('pastor-t', 'var(--blue)', '【T：Transformation — 変革提示】',
-        row('洞察', '読者が「自分もできる」と感じる転換点を設計')
+        row('洞察', claim)
       + row('根拠', '（再現性の証明）'))
     + block('pastor-o', 'var(--green)', '【O：Offer — 提案】',
         row('提案', '具体的な解決策・サービスを提示')
@@ -1240,7 +1297,7 @@ function buildEEAT(data) {
     ? '「' + data.pdfFile.name + '」を一次ソースとして明示'
     : 'STI独自調査・業界統計をソースURL付きで明示';
   var trustText = 'ソースURL表示・過度な自社誘導なし'
-    + (data.sti === 'なし' ? '（中立的なEEAT重視設計）' : '・' + data.sti + 'への自然な文脈誘導');
+    + (!data.sti ? '（中立的なEEAT重視設計）' : '・' + data.sti + 'への自然な文脈誘導');
 
   return '<div class="eeat-row"><div class="eeat-key" style="color:var(--blue)">Experience</div><div class="eeat-val">Empathyフェーズの「現場感」トーン。読者の日常に寄り添う具体的な情景描写を入れる</div></div>'
     + '<div class="eeat-row"><div class="eeat-key" style="color:var(--purple)">Expertise</div><div class="eeat-val">Insightフェーズの一次情報引用' + (hasData ? '（添付データを活用）' : '（調査データ・統計を引用）') + '</div></div>'
@@ -1264,6 +1321,13 @@ function switchTab(tabName) {
     if (pc && pc.innerHTML.trim() !== '') {
       pc.style.display = 'block';
       pe.style.display = 'none';
+      var dp = document.getElementById('article-draft-panel');
+      if (dp && dp.innerHTML.trim() !== '') {
+        dp.style.display = 'block';
+        document.getElementById('draft-generate-area').style.display = 'block';
+      } else {
+        document.getElementById('draft-generate-area').style.display = 'block';
+      }
     } else {
       pe.style.display = 'flex';
       document.getElementById('write-empty-state').style.display = 'flex';
@@ -1276,6 +1340,10 @@ function switchTab(tabName) {
     // 右パネル
     document.getElementById('preview-content').style.display = 'none';
     document.getElementById('preview-loading').style.display = 'none';
+    var draftBtn = document.getElementById('draft-generate-area');
+    if (draftBtn) draftBtn.style.display = 'none';
+    var draftPanel = document.getElementById('article-draft-panel');
+    if (draftPanel) draftPanel.style.display = 'none';
     var pe2 = document.getElementById('preview-empty');
     pe2.style.display = 'flex';
     document.getElementById('write-empty-state').style.display = 'none';
@@ -1318,7 +1386,7 @@ function jumpPhase(phase) {
 // ── プレビューチップ更新 ──────────────────────────────────────────
 function updatePreviewChips() {
   var eComplete = state.funnel && state.role;
-  var pComplete = state.depth && state.keyword;
+  var pComplete = state.depth && state.claim && state.keyword;
   var iComplete = !!state.fw;
   document.getElementById('chip-e').className = 'preview-phase-chip' + (eComplete ? ' filled' : '');
   document.getElementById('chip-p').className = 'preview-phase-chip' + (pComplete ? ' filled' : '');
@@ -1684,6 +1752,124 @@ function injectRewriteHint(container, result) {
   document.getElementById('hint-close-btn').addEventListener('click', function() {
     bar.remove();
   });
+}
+
+// ── generateArticleDraft ──────────────────────────────────────────
+function generateArticleDraft() {
+  var draftBtn = document.getElementById('draft-generate-area');
+  var draftLoading = document.getElementById('draft-loading');
+  var draftPanel = document.getElementById('article-draft-panel');
+
+  if (draftBtn) draftBtn.style.display = 'none';
+  if (draftLoading) draftLoading.style.display = 'block';
+  if (draftPanel) draftPanel.style.display = 'none';
+
+  setTimeout(function() {
+    if (draftLoading) draftLoading.style.display = 'none';
+    var data = {
+      funnel: state.funnel,
+      role: state.role,
+      mobilizer: state.mobilizer,
+      depth: state.depth,
+      claim: state.claim,
+      keyword: state.keyword,
+      fw: state.fw || 'EPIC',
+      primaryInfo: state.primaryInfo,
+      pdfFile: state.pdfFile,
+      sti: state.sti
+    };
+    renderArticleDraft(data);
+    if (draftPanel) draftPanel.style.display = 'block';
+    if (draftBtn) draftBtn.style.display = 'block';
+  }, 2200);
+}
+
+// ── renderArticleDraft ────────────────────────────────────────────
+function renderArticleDraft(data) {
+  var kw = data.keyword || 'テーマ';
+  var kwMain = kw.split(' ')[0] || kw;
+  var claim = data.claim || kwMain + 'に関する重要な視点';
+  var fw = data.fw || 'EPIC';
+  var hasData = data.primaryInfo || data.pdfFile;
+  var dataRef = hasData ? '当社の調査・一次情報によると、' : '業界データによると、';
+  var stiCta = !data.sti ? '関連ホワイトペーパーや詳細資料をご覧ください。' : data.sti + 'について、ぜひ詳細をご確認ください。';
+  var roleText = data.mobilizer ? data.role + '（' + data.mobilizer + '）' : (data.role || '担当者');
+
+  var titleMap = {
+    'TOFU': kwMain + 'の現実：多くの企業が直面する課題と突破口',
+    'MOFU': kwMain + 'で成果を出す判断基準：比較検討のための実践ガイド',
+    'BOFU': '[導入事例] ' + kwMain + 'で変革を実現した企業に共通する3つの選択'
+  };
+  var articleTitle = titleMap[data.funnel] || titleMap['TOFU'];
+
+  var lead = '';
+  var body = '';
+
+  if (fw === 'EPIC') {
+    lead = kwMain + 'に取り組む現場では、いま何が起きているのか。' + claim + '——この問いに向き合うとき、多くの' + roleText + 'が感じる「わかってはいるが、動けない」という感覚はどこから来るのだろうか。本稿では、その構造的な原因と、実際に変革を起こした企業の共通点を整理する。';
+    body = buildDraftSection('h2', '現場が動けない本当の理由',
+        kwMain + 'を推進しようとする組織の多くが直面するのは、技術や予算だけの問題ではない。' + dataRef + '推進を阻む最大の要因として「意思決定プロセスの不明確さ」が挙げられることが多い。' + roleText + 'の立場から見ると、「何を決めるべきか」よりも「誰が決めるべきか」がはっきりしないまま議論が進むことで、プロジェクトが停滞するケースが後を絶たない。')
+      + buildDraftSection('h3', '見えていない「隠れたコスト」',
+        '表面化している課題の裏に、より深刻な問題が潜んでいることが多い。現状維持を選び続けることのコスト——機会損失、競合との差の拡大、組織の学習機会の消失——は、変革コストを上回ることが多い。')
+      + buildDraftSection('h2', claim,
+        dataRef + 'この仮説を裏付けるデータが積み上がっている。成功した企業が最初に変えたのは「ツール」でも「予算」でもなく、「誰が何を決めるか」という設計そのものだった。')
+      + buildDraftSection('h3', '成功パターンに共通する3つの特徴',
+        '第一に、経営層と現場の間に「翻訳者」の役割を担う人物がいた。第二に、小さな成功を早期に可視化する仕組みがあった。第三に、失敗を学習として扱う文化的土台があった。')
+      + buildDraftSection('h2', '次のアクション：何から始めるか',
+        '大規模な変革を一度に目指す必要はない。まず自社の意思決定設計を棚卸しすることから始めてほしい。' + stiCta);
+
+  } else if (fw === 'PREP') {
+    lead = '結論から述べる。' + claim + '——これが、' + kwMain + 'で成果を出す組織と停滞する組織を分ける、最も根本的な違いだ。';
+    body = buildDraftSection('h2', '【結論】' + claim,
+        '多くの議論が「何をするか」に集中している間、成果を出した組織は「なぜそれをするか」を先に固めていた。')
+      + buildDraftSection('h2', '【根拠①】データが示すパターン',
+        dataRef + kwMain + 'に取り組んだ組織のうち、明確な主張・仮説を持って臨んだケースの成功率は、そうでないケースの約2.3倍に達する。')
+      + buildDraftSection('h2', '【根拠②】失敗ケースの共通点',
+        '一方、停滞したプロジェクトを分析すると、「ツールの選定を先に行い、活用目的が後から決まった」という逆転が高頻度で見られる。目的のない手段は、いつか必ず行き詰まる。')
+      + buildDraftSection('h2', '【具体例】実際に起きた変化',
+        '製造業A社では、' + claim + 'という仮説を経営会議で先に承認し、そこから逆算して体制・ツール・KPIを設計した。結果、稟議プロセスが半減し、現場の自律性が高まった。')
+      + buildDraftSection('h2', '【結論・再掲】あなたの組織は今どこにいるか',
+        '改めて確認してほしい。貴組織の' + kwMain + 'は、主張から始まっているか、それともツールから始まっているか。' + stiCta);
+
+  } else {
+    lead = kwMain + 'という課題を抱えながら、なかなか前に進めない——その「詰まり感」の正体は何か。本稿では、同じ問題を乗り越えた事例と、そこから導かれる実践的な処方箋を提示する。';
+    body = buildDraftSection('h2', '【Problem】あなたの組織が抱えている問題',
+        claim + '——これは多くの' + roleText + 'が感じている、しかし言語化しにくかった問題の核心だ。')
+      + buildDraftSection('h2', '【Amplify】放置した場合のリスク',
+        'この問題を先送りにし続けると何が起きるか。' + dataRef + '同様の課題を放置した組織の多くが、2〜3年後に競合との格差拡大という形でそのツケを払っている。機会損失は、今この瞬間も積み上がっている。')
+      + buildDraftSection('h2', '【Story / Solution】転換点となった事例',
+        hasData ? '一次情報・添付資料に記載の事例を活用する。' : '同様の課題を抱えていたB社は、ある気づきをきっかけに変わった。' + claim + 'という認識が組織内で共有されたとき、議論の質が変わり、行動のスピードが変わった。')
+      + buildDraftSection('h2', '【Transformation / Testimony】変革後の姿',
+        '変革後のB社では、' + kwMain + 'が「特定チームのプロジェクト」ではなく「組織の共通言語」になった。担当者の工数が削減されただけでなく、他部門からの協力申し出が自然に増えた。')
+      + buildDraftSection('h2', '【Offer】私たちが提供できること', stiCta)
+      + buildDraftSection('h2', '【Response】今すぐできる一歩',
+        'まず、貴組織の現状を確認することから始めてほしい。小さな一歩が、大きな変革の起点になる。');
+  }
+
+  var draftHtml = '<div style="margin-bottom:16px;">'
+    + '<div style="font-size:11px;font-weight:700;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:8px;">'
+    + '<svg viewBox="0 0 18 18" style="width:14px;height:14px;" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2.5l2.5 2.5-8.5 8.5H4.5V11L13 2.5z"/><line x1="2" y1="16" x2="16" y2="16"/></svg>'
+    + '記事ドラフト本文'
+    + '<span style="font-size:9px;font-weight:600;padding:1px 6px;border-radius:3px;background:rgba(61,220,132,0.12);color:var(--green);border:1px solid rgba(61,220,132,0.2);">' + fw + '</span>'
+    + '<span style="font-size:10px;color:var(--text3);font-weight:400;">（MOCKドラフト）</span>'
+    + '</div>'
+    + '<div style="font-size:11px;color:var(--text3);margin-bottom:16px;">下書きです。一次情報・数値・固有名詞は実際の内容に差し替えてください。</div>'
+    + '</div>'
+    + '<div style="padding:20px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;">'
+    + '<h1 style="font-size:18px;font-weight:700;color:var(--text);margin-bottom:16px;line-height:1.5;">' + articleTitle + '</h1>'
+    + '<p style="font-size:13px;color:var(--text2);line-height:1.8;margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--border);">' + lead + '</p>'
+    + body
+    + '</div>';
+
+  document.getElementById('article-draft-panel').innerHTML = draftHtml;
+}
+
+function buildDraftSection(tag, heading, content) {
+  var headingStyle = tag === 'h2'
+    ? 'font-size:15px;font-weight:700;color:var(--text);margin:24px 0 10px;padding-left:10px;border-left:3px solid var(--blue);line-height:1.5;'
+    : 'font-size:13px;font-weight:600;color:var(--text2);margin:16px 0 8px;padding-left:10px;border-left:2px solid var(--border2);line-height:1.5;';
+  return '<' + tag + ' style="' + headingStyle + '">' + heading + '</' + tag + '>'
+    + '<p style="font-size:13px;color:var(--text2);line-height:1.8;margin-bottom:8px;">' + content + '</p>';
 }
 </script>
 </body>
